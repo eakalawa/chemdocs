@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChemDocs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   THEMES
+══════════════════════════════════════════ */
+:root {
+  /* ── DARK (default) ── */
+  --bg-deep:#0d1117; --bg-panel:#161b22; --bg-card:#1c2230;
+  --bg-hover:#242d3d; --accent:#1de9b6; --accent2:#2196f3;
+  --text-primary:#e6edf3; --text-secondary:#8b949e; --text-dim:#484f58;
+  --border:#21262d; --border-accent:#30363d;
+  --msds-color:#ef5350; --leaflet-color:#1de9b6; --tds-color:#2196f3;
+  --shadow:0 4px 24px rgba(0,0,0,.45);
+  --sidebar-w:310px;
+  --bg-pattern:none;
+  --co-banner-from:#1a2535; --co-banner-to:#0d1117;
+  --co-name-color:#e6edf3;
+}
+
+/* ════ DARK THEMES ════ */
+
+[data-theme="ocean"] {
+  --bg-deep:#040d1a; --bg-panel:#071828; --bg-card:#0b2038;
+  --bg-hover:#102a4a; --accent:#00e5ff; --accent2:#1976d2;
+  --text-primary:#ddf4ff; --text-secondary:#6bb8d4; --text-dim:#2e5a78;
+  --border:#0b2038; --border-accent:#163555;
+  --msds-color:#ff6b6b; --leaflet-color:#00e5ff; --tds-color:#40c4ff;
+  --shadow:0 4px 28px rgba(0,20,50,.6);
+  --bg-pattern:radial-gradient(ellipse at 20% 50%,rgba(0,180,255,.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,100,200,.08) 0%,transparent 55%);
+  --co-banner-from:#0a2a45; --co-banner-to:#040d1a; --co-name-color:#ddf4ff;
+}
+[data-theme="midnight"] {
+  --bg-deep:#050a18; --bg-panel:#0a1228; --bg-card:#0f1a38;
+  --bg-hover:#162248; --accent:#4fc3f7; --accent2:#7986cb;
+  --text-primary:#e3eeff; --text-secondary:#6580b0; --text-dim:#2a3858;
+  --border:#0f1a38; --border-accent:#162248;
+  --msds-color:#ef9a9a; --leaflet-color:#4fc3f7; --tds-color:#7986cb;
+  --shadow:0 4px 28px rgba(0,5,20,.7);
+  --bg-pattern:radial-gradient(ellipse at 50% 0%,rgba(30,80,200,.12) 0%,transparent 60%),radial-gradient(ellipse at 100% 100%,rgba(80,60,200,.08) 0%,transparent 55%);
+  --co-banner-from:#0f1e45; --co-banner-to:#050a18; --co-name-color:#e3eeff;
+}
+[data-theme="forest"] {
+  --bg-deep:#060f08; --bg-panel:#0c1a0e; --bg-card:#102415;
+  --bg-hover:#172e1c; --accent:#00e676; --accent2:#40c4ff;
+  --text-primary:#e8f5e9; --text-secondary:#6db87a; --text-dim:#2e5535;
+  --border:#102415; --border-accent:#172e1c;
+  --msds-color:#ff7043; --leaflet-color:#00e676; --tds-color:#40c4ff;
+  --shadow:0 4px 28px rgba(0,15,5,.6);
+  --bg-pattern:radial-gradient(ellipse at 10% 80%,rgba(0,180,80,.08) 0%,transparent 55%),radial-gradient(ellipse at 90% 10%,rgba(0,100,40,.09) 0%,transparent 55%);
+  --co-banner-from:#0f2814; --co-banner-to:#060f08; --co-name-color:#e8f5e9;
+}
+[data-theme="slate"] {
+  --bg-deep:#12121e; --bg-panel:#1a1a2e; --bg-card:#22223a;
+  --bg-hover:#2a2a48; --accent:#9d7cff; --accent2:#56ccf2;
+  --text-primary:#e2e0ff; --text-secondary:#8880c0; --text-dim:#40406a;
+  --border:#22223a; --border-accent:#2a2a48;
+  --msds-color:#ff79c6; --leaflet-color:#9d7cff; --tds-color:#56ccf2;
+  --shadow:0 4px 28px rgba(10,8,30,.65);
+  --bg-pattern:radial-gradient(ellipse at 70% 30%,rgba(120,80,255,.08) 0%,transparent 55%),radial-gradient(ellipse at 20% 70%,rgba(80,50,200,.07) 0%,transparent 55%);
+  --co-banner-from:#22205a; --co-banner-to:#12121e; --co-name-color:#e2e0ff;
+}
+[data-theme="crimson"] {
+  --bg-deep:#120808; --bg-panel:#1e0d0d; --bg-card:#2a1212;
+  --bg-hover:#351818; --accent:#ff6b6b; --accent2:#ffa500;
+  --text-primary:#ffe8e8; --text-secondary:#c07070; --text-dim:#5a2a2a;
+  --border:#2a1212; --border-accent:#351818;
+  --msds-color:#ff6b6b; --leaflet-color:#ffa500; --tds-color:#ff9800;
+  --shadow:0 4px 28px rgba(30,5,5,.7);
+  --bg-pattern:radial-gradient(ellipse at 30% 40%,rgba(200,50,50,.09) 0%,transparent 55%),radial-gradient(ellipse at 75% 70%,rgba(150,30,30,.08) 0%,transparent 50%);
+  --co-banner-from:#3a1010; --co-banner-to:#120808; --co-name-color:#ffe8e8;
+}
+[data-theme="amber"] {
+  --bg-deep:#0f0b00; --bg-panel:#1c1500; --bg-card:#261d00;
+  --bg-hover:#322500; --accent:#ffc107; --accent2:#ff8f00;
+  --text-primary:#fff8dc; --text-secondary:#c4a030; --text-dim:#5a4800;
+  --border:#261d00; --border-accent:#322500;
+  --msds-color:#ff7043; --leaflet-color:#ffc107; --tds-color:#ff8f00;
+  --shadow:0 4px 28px rgba(20,12,0,.65);
+  --bg-pattern:radial-gradient(ellipse at 60% 20%,rgba(255,180,0,.07) 0%,transparent 55%),radial-gradient(ellipse at 15% 80%,rgba(200,120,0,.07) 0%,transparent 55%);
+  --co-banner-from:#30200a; --co-banner-to:#0f0b00; --co-name-color:#fff8dc;
+}
+[data-theme="rose"] {
+  --bg-deep:#1a0a10; --bg-panel:#26101a; --bg-card:#321525;
+  --bg-hover:#3e1a2e; --accent:#f48fb1; --accent2:#f06292;
+  --text-primary:#fce4ec; --text-secondary:#c07090; --text-dim:#6a3048;
+  --border:#321525; --border-accent:#3e1a2e;
+  --msds-color:#ef5350; --leaflet-color:#f48fb1; --tds-color:#f06292;
+  --shadow:0 4px 28px rgba(30,5,15,.65);
+  --bg-pattern:radial-gradient(ellipse at 40% 30%,rgba(240,100,150,.08) 0%,transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(200,60,100,.07) 0%,transparent 50%);
+  --co-banner-from:#3a1028; --co-banner-to:#1a0a10; --co-name-color:#fce4ec;
+}
+[data-theme="matrix"] {
+  --bg-deep:#000d00; --bg-panel:#001500; --bg-card:#001e00;
+  --bg-hover:#002800; --accent:#39ff14; --accent2:#00cc44;
+  --text-primary:#ccffcc; --text-secondary:#339933; --text-dim:#1a4d1a;
+  --border:#001e00; --border-accent:#002800;
+  --msds-color:#ff4444; --leaflet-color:#39ff14; --tds-color:#00cc44;
+  --shadow:0 4px 28px rgba(0,20,0,.75);
+  --bg-pattern:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,0,.015) 40px,rgba(0,255,0,.015) 41px);
+  --co-banner-from:#003000; --co-banner-to:#000d00; --co-name-color:#ccffcc;
+}
+
+/* ════ LIGHT THEMES ════ */
+
+/* ── Snow White ── */
+[data-theme="snow"] {
+  --bg-deep:#f8f9fc; --bg-panel:#ffffff; --bg-card:#f0f3fa;
+  --bg-hover:#e6ecf8; --accent:#1976d2; --accent2:#0288d1;
+  --text-primary:#1a2340; --text-secondary:#4a5880; --text-dim:#a0aabe;
+  --border:#dde4f0; --border-accent:#c5d0e8;
+  --msds-color:#c62828; --leaflet-color:#00695c; --tds-color:#1565c0;
+  --shadow:0 4px 20px rgba(20,40,100,.1);
+  --bg-pattern:radial-gradient(ellipse at 80% 10%,rgba(25,118,210,.05) 0%,transparent 55%),radial-gradient(ellipse at 10% 90%,rgba(2,136,209,.04) 0%,transparent 55%);
+  --co-banner-from:#dde8f8; --co-banner-to:#f8f9fc; --co-name-color:#1a2340;
+}
+
+/* ── Soft Mint ── */
+[data-theme="mint"] {
+  --bg-deep:#f0faf5; --bg-panel:#ffffff; --bg-card:#e8f7f0;
+  --bg-hover:#d5f0e4; --accent:#00897b; --accent2:#26a69a;
+  --text-primary:#1a3330; --text-secondary:#3d7a6a; --text-dim:#90bcb4;
+  --border:#c8eae0; --border-accent:#a8d8ca;
+  --msds-color:#bf360c; --leaflet-color:#00897b; --tds-color:#00695c;
+  --shadow:0 4px 20px rgba(0,80,60,.1);
+  --bg-pattern:radial-gradient(ellipse at 20% 20%,rgba(0,150,120,.06) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(0,120,100,.05) 0%,transparent 50%);
+  --co-banner-from:#c5e8de; --co-banner-to:#f0faf5; --co-name-color:#1a3330;
+}
+
+/* ── Lavender ── */
+[data-theme="lavender"] {
+  --bg-deep:#f5f3ff; --bg-panel:#ffffff; --bg-card:#ede9ff;
+  --bg-hover:#e0d9ff; --accent:#5c35cc; --accent2:#7c4dff;
+  --text-primary:#1e1540; --text-secondary:#5a4880; --text-dim:#a898cc;
+  --border:#ddd5f8; --border-accent:#c8bcf0;
+  --msds-color:#c62828; --leaflet-color:#5c35cc; --tds-color:#7c4dff;
+  --shadow:0 4px 20px rgba(60,30,150,.1);
+  --bg-pattern:radial-gradient(ellipse at 70% 15%,rgba(100,60,220,.07) 0%,transparent 50%),radial-gradient(ellipse at 20% 85%,rgba(120,80,240,.05) 0%,transparent 50%);
+  --co-banner-from:#ddd5f8; --co-banner-to:#f5f3ff; --co-name-color:#1e1540;
+}
+
+/* ── Peach Cream ── */
+[data-theme="peach"] {
+  --bg-deep:#fff8f0; --bg-panel:#ffffff; --bg-card:#fff0e4;
+  --bg-hover:#ffe4cc; --accent:#e64a19; --accent2:#ff7043;
+  --text-primary:#2d1a0e; --text-secondary:#7a4530; --text-dim:#c4a090;
+  --border:#f0ddd0; --border-accent:#e0c8b8;
+  --msds-color:#b71c1c; --leaflet-color:#e64a19; --tds-color:#bf360c;
+  --shadow:0 4px 20px rgba(80,30,10,.1);
+  --bg-pattern:radial-gradient(ellipse at 75% 10%,rgba(230,80,30,.06) 0%,transparent 50%),radial-gradient(ellipse at 15% 80%,rgba(255,120,60,.05) 0%,transparent 50%);
+  --co-banner-from:#f0d8c8; --co-banner-to:#fff8f0; --co-name-color:#2d1a0e;
+}
+
+/* ── Sky Blue ── */
+[data-theme="sky"] {
+  --bg-deep:#f0f8ff; --bg-panel:#ffffff; --bg-card:#e4f2ff;
+  --bg-hover:#cce6ff; --accent:#0277bd; --accent2:#0288d1;
+  --text-primary:#0d2540; --text-secondary:#2a6090; --text-dim:#90b8d8;
+  --border:#c0daf0; --border-accent:#a0c8e8;
+  --msds-color:#b71c1c; --leaflet-color:#0277bd; --tds-color:#01579b;
+  --shadow:0 4px 20px rgba(0,60,120,.1);
+  --bg-pattern:radial-gradient(ellipse at 60% 5%,rgba(2,119,189,.07) 0%,transparent 55%),radial-gradient(ellipse at 5% 90%,rgba(2,136,209,.05) 0%,transparent 50%);
+  --co-banner-from:#c0daf5; --co-banner-to:#f0f8ff; --co-name-color:#0d2540;
+}
+
+/* ── Warm Paper ── */
+[data-theme="paper"] {
+  --bg-deep:#fdf6e3; --bg-panel:#fffdf5; --bg-card:#f5edd8;
+  --bg-hover:#ede0c0; --accent:#8d5524; --accent2:#a0522d;
+  --text-primary:#2c1a08; --text-secondary:#6a4820; --text-dim:#c4a87a;
+  --border:#e8d8b8; --border-accent:#d8c8a0;
+  --msds-color:#8b0000; --leaflet-color:#8d5524; --tds-color:#a0522d;
+  --shadow:0 4px 20px rgba(50,25,5,.12);
+  --bg-pattern:radial-gradient(ellipse at 90% 5%,rgba(180,120,50,.07) 0%,transparent 50%),radial-gradient(ellipse at 10% 95%,rgba(140,80,20,.05) 0%,transparent 50%);
+  --co-banner-from:#e8d5b0; --co-banner-to:#fdf6e3; --co-name-color:#2c1a08;
+}
+
+/* ── Rose Day ── */
+[data-theme="roseday"] {
+  --bg-deep:#fff5f8; --bg-panel:#ffffff; --bg-card:#ffeaef;
+  --bg-hover:#ffd5e0; --accent:#c2185b; --accent2:#e91e63;
+  --text-primary:#2d0a18; --text-secondary:#7a2a48; --text-dim:#c890a8;
+  --border:#f0ccda; --border-accent:#e0b0c8;
+  --msds-color:#b71c1c; --leaflet-color:#c2185b; --tds-color:#880e4f;
+  --shadow:0 4px 20px rgba(80,10,40,.1);
+  --bg-pattern:radial-gradient(ellipse at 80% 10%,rgba(194,24,91,.07) 0%,transparent 50%),radial-gradient(ellipse at 15% 85%,rgba(233,30,99,.05) 0%,transparent 50%);
+  --co-banner-from:#f0ccda; --co-banner-to:#fff5f8; --co-name-color:#2d0a18;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-deep);color:var(--text-primary);font-family:'Sarabun',sans-serif;font-size:15px;min-height:100vh;display:flex;flex-direction:column;transition:background .35s,color .35s}
+body::before{content:'';position:fixed;inset:0;background:var(--bg-pattern,none);pointer-events:none;z-index:0}
+header,aside,main,.modal-overlay,.viewer-overlay,.notif{position:relative;z-index:1}
+
+/* ── HEADER ── */
+header{background:var(--bg-panel);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:14px;height:62px;position:sticky;top:0;z-index:100;transition:background .3s}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:17px;color:#000;flex-shrink:0}
+header h1{font-family:'Rajdhani',sans-serif;font-size:21px;font-weight:700;letter-spacing:1px}
+header h1 span{color:var(--accent)}
+.header-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* theme picker */
+.theme-picker{position:relative}
+.theme-btn{background:var(--bg-card);border:1px solid var(--border-accent);color:var(--text-secondary);border-radius:8px;padding:7px 13px;font-size:14px;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.theme-btn:hover{background:var(--bg-hover);color:var(--text-primary);border-color:var(--accent)}
+.theme-dropdown{position:absolute;top:calc(100%+8px);right:0;background:var(--bg-panel);border:1px solid var(--border-accent);border-radius:14px;padding:8px;min-width:210px;z-index:200;box-shadow:var(--shadow),0 0 0 1px rgba(255,255,255,.04);display:none;max-height:80vh;overflow-y:auto}
+.theme-section-label{font-size:11px;color:var(--text-dim);padding:6px 12px 4px;letter-spacing:.6px;font-weight:600}
+.theme-divider{height:1px;background:var(--border-accent);margin:6px 8px}
+.theme-picker.open .theme-dropdown{display:block;animation:fadeIn .15s}
+.theme-option{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:14px;transition:background .15s}
+.theme-option:hover{background:var(--bg-hover)}
+.theme-option.active{color:var(--accent)}
+.theme-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+
+.btn-hd{background:var(--bg-card);border:1px solid var(--border-accent);color:var(--text-secondary);border-radius:8px;padding:7px 13px;font-size:14px;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-hd:hover{background:var(--bg-hover);color:var(--text-primary);border-color:var(--accent)}
+.btn-primary{background:var(--accent);color:#000;border:none;border-radius:8px;padding:7px 15px;font-size:14px;font-family:'Sarabun',sans-serif;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-primary:hover{opacity:.85;transform:translateY(-1px)}
+
+/* ── LAYOUT ── */
+.app-body{display:flex;flex:1;overflow:hidden;height:calc(100vh - 62px)}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--bg-panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:background .3s}
+.sidebar-search{padding:14px;border-bottom:1px solid var(--border)}
+.search-wrap{position:relative}
+.search-wrap::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.5}
+.search-input{width:100%;background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:8px;padding:8px 12px 8px 36px;color:var(--text-primary);font-size:14px;font-family:'Sarabun',sans-serif;outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--accent)}
+.sidebar-scroll{flex:1;overflow-y:auto;padding:8px}
+.sidebar-scroll::-webkit-scrollbar{width:4px}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:2px}
+
+/* company */
+.company-group{margin-bottom:10px;border-radius:12px;overflow:hidden;border:1px solid var(--border-accent)}
+.company-header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;
+  cursor:pointer;user-select:none;
+  background:linear-gradient(135deg, var(--co-banner-from,#1a2535), var(--co-banner-to,#0d1117));
+  border-bottom:1px solid var(--border-accent);
+  transition:filter .2s;
+  position:relative;
+  overflow:hidden;
+}
+/* subtle shimmer line */
+.company-header::after{content:'';position:absolute;left:0;top:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.35}
+.company-header:hover{filter:brightness(1.12)}
+
+.company-logo-wrap{position:relative;flex-shrink:0}
+.company-logo{
+  width:42px;height:42px;border-radius:9px;
+  background:rgba(255,255,255,.06);
+  border:1.5px dashed rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,.35);
+  cursor:pointer;overflow:hidden;transition:border-color .2s,background .2s;
+}
+.company-logo:hover{border-color:var(--accent);background:rgba(255,255,255,.1)}
+.company-logo img{width:100%;height:100%;object-fit:cover}
+.logo-upload{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+
+.company-name-wrap{flex:1;min-width:0}
+.company-name-display{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:19px;
+  color:var(--co-name-color,#e6edf3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  cursor:text;letter-spacing:.5px;line-height:1.2;
+  text-shadow:0 1px 8px rgba(0,0,0,.4);
+}
+.company-name-input{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:19px;
+  background:rgba(0,0,0,.3);border:1px solid var(--accent);border-radius:6px;
+  color:var(--co-name-color,#e6edf3);padding:1px 8px;width:100%;outline:none;display:none;
+}
+.company-count{
+  font-size:12px;
+  color:rgba(255,255,255,.35);
+  margin-top:1px;letter-spacing:.3px;
+}
+.chevron{color:rgba(255,255,255,.35);font-size:11px;transition:transform .2s;flex-shrink:0}
+.chevron.open{transform:rotate(90deg)}
+
+/* chemicals */
+.chemical-list{padding:6px 8px;background:var(--bg-panel)}
+.chemical-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:6px;cursor:pointer;transition:background .15s;border-left:2px solid transparent;position:relative}
+.chemical-item:hover{background:var(--bg-hover)}
+.chemical-item.active{background:rgba(29,233,182,.09);border-left-color:var(--accent)}
+.chem-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;opacity:.4}
+.chemical-item.active .chem-dot{opacity:1}
+.chem-name-wrap{flex:1;min-width:0}
+.chem-label{font-size:14px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chemical-item.active .chem-label{color:var(--text-primary)}
+.chem-thai{font-size:12px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drag-handle{color:var(--text-dim);font-size:12px;cursor:grab;opacity:0;transition:opacity .2s}
+.chemical-item:hover .drag-handle{opacity:1}
+
+.add-chem-btn{display:flex;align-items:center;gap:6px;padding:7px 10px;margin:4px 0 6px;border-radius:8px;cursor:pointer;color:var(--text-dim);font-size:13px;border:1px dashed var(--border-accent);transition:all .2s;width:100%;background:none}
+.add-chem-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;padding:28px 32px}
+.main::-webkit-scrollbar{width:6px}
+.main::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:3px}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;color:var(--text-dim)}
+.empty-icon{font-size:72px;opacity:.25}
+.empty-state p{font-size:18px}
+
+/* detail header */
+.detail-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.chem-icon{width:58px;height:58px;border-radius:14px;background:linear-gradient(135deg,rgba(29,233,182,.15),rgba(33,150,243,.15));border:1px solid rgba(29,233,182,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+
+/* inline editable title */
+.inline-edit-wrap{position:relative;display:inline-flex;align-items:center;gap:6px}
+.inline-edit-display{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;line-height:1.1;cursor:text;border-bottom:2px dashed transparent;transition:border-color .2s}
+.inline-edit-display:hover{border-bottom-color:var(--accent)}
+.inline-edit-input{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;background:var(--bg-card);border:1px solid var(--accent);border-radius:8px;color:var(--text-primary);padding:2px 10px;outline:none;display:none;width:380px}
+.inline-edit-sub{font-size:15px;color:var(--text-secondary);margin-top:5px;cursor:text;border-bottom:1px dashed transparent;transition:border-color .2s;display:inline-block}
+.inline-edit-sub:hover{border-bottom-color:var(--accent)}
+.inline-edit-sub-input{font-size:15px;background:var(--bg-card);border:1px solid var(--accent);border-radius:6px;color:var(--text-secondary);padding:1px 8px;outline:none;display:none;width:260px}
+
+.company-tag{display:inline-flex;align-items:center;gap:4px;background:var(--bg-card);border:1px solid var(--border-accent);border-radius:20px;padding:3px 11px;font-size:12px;color:var(--text-dim);margin-top:8px}
+.detail-actions{margin-left:auto;display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap;justify-content:flex-end}
+
+/* stats */
+.stats-bar{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid var(--border);margin-bottom:24px;flex-wrap:wrap}
+.stat-item{display:flex;flex-direction:column;gap:2px}
+.stat-num{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;color:var(--accent)}
+.stat-label{font-size:12px;color:var(--text-dim);letter-spacing:.5px}
+
+/* doc sections */
+.doc-section{margin-bottom:26px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.doc-section-header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.section-badge{display:flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;letter-spacing:.5px;padding:5px 14px;border-radius:20px}
+.section-badge.msds{background:rgba(239,83,80,.12);color:var(--msds-color);border:1px solid rgba(239,83,80,.3)}
+.section-badge.leaflet{background:rgba(29,233,182,.1);color:var(--leaflet-color);border:1px solid rgba(29,233,182,.25)}
+.section-badge.tds{background:rgba(33,150,243,.1);color:var(--tds-color);border:1px solid rgba(33,150,243,.25)}
+.section-badge.other{background:rgba(171,71,188,.1);color:#ab47bc;border:1px solid rgba(171,71,188,.25)}
+.section-count{font-size:13px;color:var(--text-dim);margin-left:4px}
+.btn-add-file{background:none;border:1px dashed var(--border-accent);border-radius:7px;padding:5px 13px;font-size:13px;color:var(--text-dim);cursor:pointer;transition:all .2s;font-family:'Sarabun',sans-serif;position:relative;overflow:hidden;margin-left:auto}
+.btn-add-file:hover{border-color:var(--accent);color:var(--accent)}
+.btn-add-file input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+
+.doc-section-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+
+/* file card */
+.file-card{background:var(--bg-panel);border:1px solid var(--border-accent);border-radius:11px;padding:15px;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:9px}
+.file-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.file-card.msds::before{background:var(--msds-color)}
+.file-card.leaflet::before{background:var(--leaflet-color)}
+.file-card.tds::before{background:var(--tds-color)}
+.file-card.other::before{background:#ab47bc}
+.file-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+.file-top{display:flex;align-items:center;gap:10px}
+.file-type-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.file-type-icon.pdf{background:rgba(239,83,80,.15)}
+.file-type-icon.img{background:rgba(29,233,182,.12)}
+.file-type-icon.word{background:rgba(33,150,243,.12)}
+.file-type-icon.excel{background:rgba(102,187,106,.12)}
+.file-type-icon.ppt{background:rgba(255,167,38,.12)}
+.file-type-icon.other-f{background:rgba(171,71,188,.12)}
+.file-info{flex:1;min-width:0}
+.file-name-display{font-size:14px;font-weight:500;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;cursor:text;border-bottom:1px dashed transparent;transition:border-color .2s}
+.file-name-display:hover{border-bottom-color:var(--accent)}
+.file-name-input{font-size:14px;font-weight:500;background:var(--bg-deep);border:1px solid var(--accent);border-radius:5px;color:var(--text-primary);padding:1px 6px;width:100%;outline:none;display:none}
+.file-meta{font-size:12px;color:var(--text-dim)}
+.file-actions{display:flex;gap:5px}
+.file-btn{flex:1;padding:5px 7px;border-radius:6px;border:1px solid var(--border-accent);background:none;color:var(--text-dim);font-size:12px;cursor:pointer;transition:all .15s;font-family:'Sarabun',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px}
+.file-btn:hover{background:var(--bg-hover);color:var(--text-primary)}
+.file-btn.del:hover{border-color:var(--msds-color);color:var(--msds-color)}
+.file-btn.open-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* note row */
+.note-row{border-top:1px solid var(--border);padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.note-label{font-size:12px;color:var(--text-dim);letter-spacing:.5px}
+.note-area-wrap{display:flex;gap:10px;align-items:flex-start}
+.note-textarea{width:100%;background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:8px;padding:9px 12px;color:var(--text-primary);font-size:14px;font-family:'Sarabun',sans-serif;resize:vertical;outline:none;transition:border-color .2s;min-height:56px}
+.note-textarea:focus{border-color:var(--accent)}
+.note-images{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.note-img{position:relative;display:inline-block}
+.note-img img{width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border-accent);cursor:pointer;transition:transform .2s}
+.note-img img:hover{transform:scale(1.05)}
+.note-img-del{position:absolute;top:-5px;right:-5px;background:var(--msds-color);border:none;color:#fff;width:16px;height:16px;border-radius:50%;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.btn-note-img{background:none;border:1px dashed var(--border-accent);border-radius:7px;padding:4px 10px;font-size:12px;color:var(--text-dim);cursor:pointer;transition:all .2s;font-family:'Sarabun',sans-serif;position:relative;overflow:hidden;flex-shrink:0}
+.btn-note-img:hover{border-color:var(--accent);color:var(--accent)}
+.btn-note-img input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+
+/* drop zone */
+.drop-zone{border:1.5px dashed var(--border-accent);border-radius:10px;padding:18px;text-align:center;color:var(--text-dim);font-size:14px;transition:all .2s;cursor:pointer;background:rgba(255,255,255,.01);position:relative;overflow:hidden}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);color:var(--accent);background:rgba(29,233,182,.03)}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.drop-icon{font-size:22px;margin-bottom:5px;display:block}
+
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:300;backdrop-filter:blur(5px);animation:fadeIn .15s}
+@keyframes fadeIn{from{opacity:0}}
+.modal{background:var(--bg-panel);border:1px solid var(--border-accent);border-radius:16px;padding:26px;width:520px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:slideUp .2s ease;max-height:90vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0}}
+.modal h3{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:20px}
+.form-group{margin-bottom:15px}
+.form-label{font-size:13px;color:var(--text-secondary);margin-bottom:6px;display:block;letter-spacing:.4px}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:8px;padding:9px 12px;color:var(--text-primary);font-size:15px;font-family:'Sarabun',sans-serif;outline:none;transition:border-color .2s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
+.form-select option{background:var(--bg-panel)}
+.form-textarea{resize:vertical;min-height:70px}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
+.btn-cancel{background:var(--bg-card);border:1px solid var(--border-accent);color:var(--text-secondary);border-radius:8px;padding:8px 18px;font-size:14px;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s}
+.btn-cancel:hover{background:var(--bg-hover);color:var(--text-primary)}
+.btn-save{background:var(--accent);color:#000;border:none;border-radius:8px;padding:8px 18px;font-size:14px;font-family:'Sarabun',sans-serif;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-save:hover{opacity:.85}
+
+/* bulk import */
+.import-file-list{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.import-file-row{display:flex;align-items:center;gap:10px;background:var(--bg-card);border:1px solid var(--border-accent);border-radius:8px;padding:10px 12px}
+.import-file-icon{font-size:18px;flex-shrink:0}
+.import-file-name-input{flex:1;background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:6px;padding:6px 10px;color:var(--text-primary);font-size:14px;font-family:'Sarabun',sans-serif;outline:none;transition:border-color .2s}
+.import-file-name-input:focus{border-color:var(--accent)}
+.import-group-sel{background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:6px;padding:6px 8px;color:var(--text-primary);font-size:13px;font-family:'Sarabun',sans-serif;outline:none;cursor:pointer}
+.import-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;padding:0 4px;transition:color .15s}
+.import-remove:hover{color:var(--msds-color)}
+.import-drop-zone{border:2px dashed var(--border-accent);border-radius:12px;padding:24px;text-align:center;color:var(--text-dim);font-size:14px;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;margin-bottom:12px}
+.import-drop-zone:hover,.import-drop-zone.dragover{border-color:var(--accent);color:var(--accent);background:rgba(29,233,182,.04)}
+.import-drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+
+/* viewer */
+.viewer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:400;display:flex;flex-direction:column;animation:fadeIn .15s}
+.viewer-bar{background:var(--bg-panel);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px}
+.viewer-bar .vname{font-size:15px;font-weight:500;flex:1}
+.viewer-frame{flex:1;border:none;width:100%}
+
+/* notif */
+.notif{position:fixed;bottom:24px;right:24px;background:var(--bg-panel);border:1px solid var(--accent);border-radius:10px;padding:12px 18px;font-size:14px;color:var(--text-primary);box-shadow:var(--shadow);z-index:500;animation:slideInNotif .3s ease;display:flex;align-items:center;gap:8px}
+@keyframes slideInNotif{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+.chemical-item.drag-over{background:rgba(29,233,182,.1);border-left-color:var(--accent)}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:3px}
+
+/* ── MOBILE RESPONSIVE ── */
+.mob-menu-btn{display:none;background:none;border:none;color:var(--text-primary);font-size:22px;cursor:pointer;padding:4px 8px;flex-shrink:0}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;backdrop-filter:blur(2px)}
+.mob-overlay.show{display:block}
+
+@media(max-width:768px){
+  /* header */
+  header{padding:0 12px;height:54px;gap:8px}
+  header h1{font-size:17px}
+  #syncStatus{display:none}
+  .header-right{gap:5px}
+  .btn-hd{padding:6px 8px;font-size:12px;gap:4px}
+  .btn-primary{padding:6px 8px;font-size:12px}
+  /* hide text labels on small screens */
+  .btn-hd span.btn-label,.btn-primary span.btn-label{display:none}
+
+  /* hamburger */
+  .mob-menu-btn{display:flex;align-items:center;justify-content:center}
+
+  /* sidebar becomes drawer */
+  .sidebar{
+    position:fixed;left:0;top:54px;bottom:0;
+    width:85vw;max-width:320px;
+    z-index:60;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+
+  /* main takes full width */
+  .app-body{height:calc(100vh - 54px)}
+  .main{padding:16px 14px}
+
+  /* detail header stack */
+  .detail-header{flex-wrap:wrap;gap:12px}
+  .detail-actions{width:100%;justify-content:flex-start;margin-left:0}
+  .inline-edit-display{font-size:22px}
+  .inline-edit-input{width:100%;font-size:22px}
+
+  /* files grid 1 col */
+  .files-grid{grid-template-columns:1fr}
+
+  /* stats bar scroll */
+  .stats-bar{flex-wrap:nowrap;overflow-x:auto;padding-bottom:10px}
+  .stat-num{font-size:22px}
+
+  /* modal full width */
+  .modal{width:95vw!important;padding:18px}
+  .modal h3{font-size:18px}
+
+  /* theme dropdown */
+  .theme-dropdown{right:auto;left:0;min-width:180px}
+
+  /* company header */
+  .company-name-display{font-size:17px}
+}
+.btn-backup{border-color:var(--accent)!important;color:var(--accent)!important}
+.btn-backup:hover{background:rgba(29,233,182,.1)!important}
+.backup-storage-box{background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:10px;padding:14px 16px;margin-bottom:18px}
+.storage-bar-bg{height:8px;background:var(--border-accent);border-radius:4px;overflow:hidden}
+.storage-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s ease;min-width:2px}
+.storage-bar-fill.warn{background:linear-gradient(90deg,#ffa726,#ff5722)}
+.storage-bar-fill.danger{background:linear-gradient(90deg,#ef5350,#b71c1c)}
+.backup-section{background:var(--bg-card);border:1px solid var(--border-accent);border-radius:12px;padding:16px;margin-bottom:14px}
+.backup-section-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:8px}
+.backup-desc{font-size:13px;color:var(--text-secondary);line-height:1.6}
+.backup-desc code{background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:4px;padding:1px 6px;font-size:12px;color:var(--accent)}
+.restore-drop{border:2px dashed var(--border-accent);border-radius:10px;padding:20px;text-align:center;color:var(--text-dim);font-size:14px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s;margin-top:12px}
+.restore-drop:hover,.restore-drop.dragover{border-color:var(--accent);color:var(--accent);background:rgba(29,233,182,.04)}
+.restore-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.restore-preview-box{background:var(--bg-deep);border:1px solid var(--accent);border-radius:10px;padding:14px 16px;margin-top:12px;animation:slideUp .2s}
+.backup-reminder{display:flex;align-items:center;gap:12px;background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:10px;padding:12px 16px;margin-bottom:4px}
+
+/* separator */
+.section-sep{height:1px;background:var(--border);margin:4px 0}
+</style>
+</head>
+<body data-theme="dark">
+
+<header>
+  <button class="mob-menu-btn" onclick="toggleSidebar()" id="mobMenuBtn">☰</button>
+  <div class="logo-mark">⚗</div>
+  <h1>CHEM<span>DOCS</span></h1>
+  <span id="syncStatus" style="font-size:12px;color:var(--text-dim);margin-left:4px">🔄 กำลังโหลด...</span>
+  <div class="header-right">
+    <!-- Theme Picker -->
+    <div class="theme-picker" id="themePicker">
+      <button class="theme-btn" onclick="toggleThemePicker()">🎨 ธีม</button>
+      <div class="theme-dropdown" id="themeDropdown">
+        <div class="theme-section-label">🌙 โทนมืด</div>
+        <div class="theme-option active" onclick="setTheme('dark')" data-t="dark">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#1de9b6,#2196f3)"></div> Dark
+        </div>
+        <div class="theme-option" onclick="setTheme('ocean')" data-t="ocean">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#00e5ff,#1976d2)"></div> Ocean
+        </div>
+        <div class="theme-option" onclick="setTheme('midnight')" data-t="midnight">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#4fc3f7,#7986cb)"></div> Midnight Blue
+        </div>
+        <div class="theme-option" onclick="setTheme('forest')" data-t="forest">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#00e676,#40c4ff)"></div> Forest
+        </div>
+        <div class="theme-option" onclick="setTheme('slate')" data-t="slate">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#9d7cff,#56ccf2)"></div> Slate Purple
+        </div>
+        <div class="theme-option" onclick="setTheme('crimson')" data-t="crimson">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#ff6b6b,#ffa500)"></div> Crimson
+        </div>
+        <div class="theme-option" onclick="setTheme('amber')" data-t="amber">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#ffc107,#ff8f00)"></div> Amber Gold
+        </div>
+        <div class="theme-option" onclick="setTheme('rose')" data-t="rose">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#f48fb1,#f06292)"></div> Rose Gold (Dark)
+        </div>
+        <div class="theme-option" onclick="setTheme('matrix')" data-t="matrix">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#39ff14,#00cc44)"></div> Matrix
+        </div>
+        <div class="theme-divider"></div>
+        <div class="theme-section-label">☀️ โทนสว่าง</div>
+        <div class="theme-option" onclick="setTheme('snow')" data-t="snow">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#e8f0fe,#1976d2);border:1px solid #c5d0e8"></div> Snow White
+        </div>
+        <div class="theme-option" onclick="setTheme('sky')" data-t="sky">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#e4f2ff,#0277bd);border:1px solid #c0daf0"></div> Sky Blue
+        </div>
+        <div class="theme-option" onclick="setTheme('mint')" data-t="mint">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#e8f7f0,#00897b);border:1px solid #c8eae0"></div> Soft Mint
+        </div>
+        <div class="theme-option" onclick="setTheme('lavender')" data-t="lavender">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#ede9ff,#5c35cc);border:1px solid #ddd5f8"></div> Lavender
+        </div>
+        <div class="theme-option" onclick="setTheme('peach')" data-t="peach">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#fff0e4,#e64a19);border:1px solid #f0ddd0"></div> Peach Cream
+        </div>
+        <div class="theme-option" onclick="setTheme('roseday')" data-t="roseday">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#ffeaef,#c2185b);border:1px solid #f0ccda"></div> Rose Day
+        </div>
+        <div class="theme-option" onclick="setTheme('paper')" data-t="paper">
+          <div class="theme-dot" style="background:linear-gradient(135deg,#fdf6e3,#8d5524);border:1px solid #e8d8b8"></div> Warm Paper
+        </div>
+      </div>
+    </div>
+    <button class="btn-hd" onclick="openBulkImport()">📥 Import ไฟล์</button>
+    <button class="btn-hd" onclick="openAddCompany()">＋ บริษัท</button>
+    <button class="btn-hd" onclick="openAddChemical()">＋ สารเคมี</button>
+    <button class="btn-hd btn-backup" onclick="openBackupModal()" title="สำรองและกู้คืนข้อมูล">💾 Backup</button>
+    <button class="btn-primary" onclick="exportAll()">⬇ Export</button>
+  </div>
+</header>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="app-body">
+  <aside class="sidebar">
+    <div class="sidebar-search">
+      <div class="search-wrap">
+        <input class="search-input" id="searchInput" type="text" placeholder="ค้นหาสารเคมี..." oninput="renderSidebar(this.value)">
+      </div>
+    </div>
+    <div class="sidebar-scroll" id="sidebarTree"></div>
+  </aside>
+  <main class="main" id="mainContent">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">⚗</div>
+      <p>เลือกสารเคมีเพื่อดูเอกสาร</p>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL: Add Company -->
+<div class="modal-overlay" id="modalCompany" style="display:none">
+  <div class="modal">
+    <h3>➕ เพิ่มบริษัท</h3>
+    <div class="form-group"><label class="form-label">ชื่อบริษัท (EN)</label><input class="form-input" id="coName" placeholder="เช่น SILVA"></div>
+    <div class="form-group"><label class="form-label">ชื่อบริษัท (TH)</label><input class="form-input" id="coNameTh" placeholder="ชื่อภาษาไทย (ถ้ามี)"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('modalCompany')">ยกเลิก</button>
+      <button class="btn-save" onclick="saveCompany()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Add Chemical -->
+<div class="modal-overlay" id="modalChemical" style="display:none">
+  <div class="modal">
+    <h3>➕ เพิ่มสารเคมี</h3>
+    <div class="form-group"><label class="form-label">บริษัท</label><select class="form-select" id="chemCoSel"></select></div>
+    <div class="form-group"><label class="form-label">ชื่อสารเคมี (EN)</label><input class="form-input" id="chemName" placeholder="เช่น Acetic Acid"></div>
+    <div class="form-group"><label class="form-label">ชื่อสารเคมี (TH)</label><input class="form-input" id="chemNameTh" placeholder="เช่น กรดอะซิติก"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('modalChemical')">ยกเลิก</button>
+      <button class="btn-save" onclick="saveChem()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Add Doc Group -->
+<div class="modal-overlay" id="modalDocGroup" style="display:none">
+  <div class="modal">
+    <h3>➕ เพิ่มกลุ่มเอกสาร</h3>
+    <div class="form-group"><label class="form-label">ชื่อกลุ่ม</label><input class="form-input" id="dgName" placeholder="เช่น COA, Certificate"></div>
+    <div class="form-group"><label class="form-label">ไอคอน (Emoji)</label><input class="form-input" id="dgIcon" placeholder="🗂" maxlength="3"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('modalDocGroup')">ยกเลิก</button>
+      <button class="btn-save" onclick="saveDocGroup()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Edit Chemical (move company) -->
+<div class="modal-overlay" id="modalEditChem" style="display:none">
+  <div class="modal">
+    <h3>✏️ แก้ไขสารเคมี</h3>
+    <div id="editChemBody"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('modalEditChem')">ยกเลิก</button>
+      <button class="btn-save" id="editChemSaveBtn">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Bulk Import -->
+<div class="modal-overlay" id="modalImport" style="display:none">
+  <div class="modal" style="width:660px">
+    <h3>📥 Import ไฟล์จำนวนมาก</h3>
+
+    <!-- Row 1: Company + Chemical -->
+    <div class="form-group">
+      <label class="form-label">📦 บริษัท &amp; สารเคมีที่จะนำเข้า</label>
+      <div style="display:flex;gap:10px">
+        <select class="form-select" id="importCoSel" onchange="updateImportChemSel()" style="flex:1"></select>
+        <select class="form-select" id="importChemSel" style="flex:1"></select>
+      </div>
+    </div>
+
+    <!-- Row 2: Default group selector -->
+    <div class="form-group">
+      <label class="form-label">🗂 กลุ่มเอกสาร (ค่าเริ่มต้นสำหรับทุกไฟล์)</label>
+      <div style="display:flex;gap:10px;align-items:center">
+        <select class="form-select" id="importDefaultGroup" style="flex:1" onchange="applyDefaultGroup(this.value)"></select>
+        <button class="btn-hd" onclick="applyDefaultGroup(document.getElementById('importDefaultGroup').value)" style="white-space:nowrap;flex-shrink:0">ใช้กับทุกไฟล์</button>
+      </div>
+    </div>
+
+    <!-- Drop zone -->
+    <div class="import-drop-zone" id="importDropZone"
+         ondragover="importDzOver(event)" ondragleave="importDzLeave(event)" ondrop="importDzDrop(event)">
+      <input type="file" multiple onchange="importFilesSelected(this)">
+      <div style="font-size:28px;margin-bottom:8px">📁</div>
+      ลากไฟล์มาวางที่นี่ หรือ <strong>คลิกเพื่อเลือกไฟล์</strong><br>
+      <span style="font-size:12px;color:var(--text-dim)">เลือกได้ทีละมากๆ — PDF, Word, Excel, รูปภาพ, ฯลฯ</span>
+    </div>
+
+    <!-- Per-file list -->
+    <div id="importFileList" class="import-file-list"></div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('modalImport')">ยกเลิก</button>
+      <button class="btn-save" onclick="confirmImport()">✅ Import ทั้งหมด</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Backup / Restore -->
+<div class="modal-overlay" id="modalBackup" style="display:none">
+  <div class="modal" style="width:540px">
+    <h3>💾 Backup &amp; Restore</h3>
+
+    <!-- Storage meter -->
+    <div class="backup-storage-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:13px;color:var(--text-secondary)">พื้นที่ localStorage ที่ใช้งาน</span>
+        <span id="storageText" style="font-size:13px;font-weight:600;color:var(--accent)">—</span>
+      </div>
+      <div class="storage-bar-bg">
+        <div class="storage-bar-fill" id="storageBarFill"></div>
+      </div>
+      <div id="storageDetail" style="font-size:12px;color:var(--text-dim);margin-top:6px"></div>
+    </div>
+
+    <!-- Backup section -->
+    <div class="backup-section">
+      <div class="backup-section-title">📤 สำรองข้อมูล (Backup)</div>
+      <p class="backup-desc">บันทึกข้อมูลทั้งหมด — ชื่อบริษัท, สารเคมี, ไฟล์เอกสาร, บันทึก — ออกมาเป็นไฟล์ <code>.json</code> เก็บไว้ในคอมพิวเตอร์</p>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn-save" style="flex:1;min-width:160px" onclick="doBackupFull()">
+          💾 Backup ทั้งหมด (รวมไฟล์)
+        </button>
+        <button class="btn-hd" style="flex:1;min-width:160px" onclick="doBackupMeta()">
+          📋 Backup เฉพาะโครงสร้าง<br><span style="font-size:11px;font-weight:400">(ไม่รวมไฟล์ — ขนาดเล็ก)</span>
+        </button>
+      </div>
+      <div style="font-size:12px;color:var(--text-dim);margin-top:8px">
+        💡 แนะนำ: Backup ทุกครั้งก่อนเพิ่มข้อมูลสำคัญ และเก็บไฟล์ .json ไว้ใน Google Drive หรือ OneDrive
+      </div>
+    </div>
+
+    <!-- Restore section -->
+    <div class="backup-section">
+      <div class="backup-section-title">📥 กู้คืนข้อมูล (Restore)</div>
+      <p class="backup-desc">นำไฟล์ <code>.json</code> ที่เคย Backup ไว้มาโหลดกลับเข้าระบบ</p>
+      <div class="restore-drop" id="restoreDropZone"
+           ondragover="restoreDzOver(event)" ondragleave="restoreDzLeave(event)" ondrop="restoreDzDrop(event)">
+        <input type="file" accept=".json" onchange="restoreFromFile(this)" id="restoreFileInput">
+        <div style="font-size:28px;margin-bottom:6px">📂</div>
+        ลากไฟล์ <strong>.json</strong> มาวางที่นี่ หรือคลิกเพื่อเลือก
+      </div>
+      <div id="restorePreview" style="display:none" class="restore-preview-box">
+        <div id="restorePreviewContent"></div>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn-save" style="flex:1" id="restoreConfirmBtn">✅ ยืนยัน Restore</button>
+          <button class="btn-cancel" style="flex:1" onclick="cancelRestore()">ยกเลิก</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-backup reminder -->
+    <div class="backup-reminder">
+      <span style="font-size:16px">⏰</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary)">Backup ล่าสุด</div>
+        <div id="lastBackupTime" style="font-size:12px;color:var(--text-dim)">ยังไม่เคย Backup</div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('modalBackup')">ปิด</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEWER -->
+<div class="viewer-overlay" id="fileViewer" style="display:none">
+  <div class="viewer-bar">
+    <span class="vname" id="viewerFileName"></span>
+    <button class="btn-hd" onclick="downloadCurrent()">⬇ ดาวน์โหลด</button>
+    <button class="btn-hd" onclick="closeViewer()">✕ ปิด</button>
+  </div>
+  <div id="viewerContent" style="flex:1;display:flex;overflow:auto;background:#000"></div>
+</div>
+
+<script>
+// ══════════════════════════════
+// SUPABASE CONFIG
+// ══════════════════════════════
+const SUPA_URL = 'https://sxfhpruvaviprfhovnfh.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4ZmhwcnV2YXZpcHJmaG92bmZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4MTkzNDcsImV4cCI6MjA5NjM5NTM0N30.0bhQ-tYQf34vI6IxgZlSyJFHzVo1pJftXO-VVbXpm9U';
+const SUPA_TABLE = 'chemdocs_data';
+const SUPA_HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': SUPA_KEY,
+  'Authorization': 'Bearer ' + SUPA_KEY,
+  'Prefer': 'resolution=merge-duplicates'
+};
+
+// split large data into chunks (Supabase row limit ~1MB per cell)
+const CHUNK_SIZE = 800 * 1024; // 800KB per chunk
+
+async function supaGet(key) {
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${SUPA_TABLE}?key=eq.${encodeURIComponent(key)}&select=value`, {headers: SUPA_HEADERS});
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d.length ? d[0].value : null;
+  } catch(e) { return null; }
+}
+
+async function supaSet(key, value) {
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${SUPA_TABLE}`, {
+      method: 'POST',
+      headers: SUPA_HEADERS,
+      body: JSON.stringify({key, value})
+    });
+    return r.ok;
+  } catch(e) { return false; }
+}
+
+async function supaDelete(key) {
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/${SUPA_TABLE}?key=eq.${encodeURIComponent(key)}`, {
+      method: 'DELETE', headers: SUPA_HEADERS
+    });
+  } catch(e) {}
+}
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let S = {
+  companies: [],
+  chemicals: [],
+  docGroups: ['MSDS','Leaflet','TDS'],
+  docGroupIcons: {MSDS:'☠️',Leaflet:'📋',TDS:'📊'},
+  files: {},
+  notes: {},
+  openCo: {},
+  selectedChem: null,
+  theme: 'dark',
+};
+let importPendingFiles = [];
+let pendingGroupChemId = null;
+let currentViewFile = null;
+let saveTimer = null;
+let isSyncing = false;
+
+function showSyncStatus(msg, ok=true) {
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = ok ? 'var(--accent)' : '#ffa726';
+}
+
+async function init() {
+  showSyncStatus('🔄 กำลังโหลดจาก Cloud...');
+  try {
+    // Load meta (companies, chemicals, groups, theme)
+    const meta = await supaGet('meta');
+    if (meta) {
+      const m = JSON.parse(meta);
+      S.companies = m.companies || [];
+      S.chemicals = m.chemicals || [];
+      S.docGroups = m.docGroups || ['MSDS','Leaflet','TDS'];
+      S.docGroupIcons = m.docGroupIcons || {MSDS:'☠️',Leaflet:'📋',TDS:'📊'};
+      S.openCo = m.openCo || {};
+      S.theme = m.theme || 'dark';
+      S.notes = m.notes || {};
+    } else {
+      // First time — set default data
+      S.companies = [
+        {id:'silva',name:'SILVA',nameTh:'',logo:null},
+        {id:'alan',name:'ALAN CHEM',nameTh:'',logo:null},
+      ];
+      S.chemicals = [
+        {id:'c1',companyId:'silva',name:'Acetic Acid',nameTh:'อะซิติก แอซิด',order:0},
+        {id:'c2',companyId:'silva',name:'Activated Carbon (Powder)',nameTh:'ผงคาร์บอน - มาเลเซีย',order:1},
+        {id:'c3',companyId:'silva',name:'Activated Carbon (Pellet)',nameTh:'เม็ดคาร์บอน - ไทย',order:2},
+        {id:'c4',companyId:'alan',name:'Acid Cleaner CL 88',nameTh:'ยาล้างไขมันแบบน้ำ CL 88',order:0},
+        {id:'c5',companyId:'alan',name:'Aluminium Sulphate',nameTh:'อลูมิเนียมซัลเฟตผง',order:1},
+        {id:'c6',companyId:'alan',name:'Ammonium Bifluoride',nameTh:'แอมโมเนียมไบฟลูออไรด์',order:2},
+        {id:'c7',companyId:'alan',name:'Ammonium Chloride Japan',nameTh:'แอมโมเนียมคลอไรด์ ญี่ปุ่น',order:3},
+        {id:'c8',companyId:'alan',name:'Ammonium Chloride China',nameTh:'แอมโมเนียมคลอไรด์ จีน เทียนจิน',order:4},
+        {id:'c9',companyId:'alan',name:'Ammonium Hydroxide',nameTh:'แอมโมเนียน้ำ',order:5},
+        {id:'c10',companyId:'alan',name:'Ammonium Sulphate',nameTh:'แอมโมเนียมซัลเฟต',order:6},
+      ];
+      S.openCo = {silva:true,alan:true};
+    }
+
+    // Load files (each chem has its own key to avoid size limits)
+    S.files = {};
+    for (const chem of S.chemicals) {
+      const fData = await supaGet('files_' + chem.id);
+      if (fData) {
+        try { S.files[chem.id] = JSON.parse(fData); } catch(e) {}
+      }
+    }
+
+    showSyncStatus('☁️ Cloud พร้อม');
+  } catch(e) {
+    showSyncStatus('⚠️ Offline — ใช้ข้อมูลในเครื่อง', false);
+    // fallback to localStorage
+    const raw = localStorage.getItem('chemdocs_v3');
+    if (raw) { try { Object.assign(S, JSON.parse(raw)); } catch(e2){} }
+  }
+
+  document.body.dataset.theme = S.theme || 'dark';
+  highlightThemeOption(S.theme || 'dark');
+}
+
+// Debounced save — waits 800ms after last change before saving
+function save() {
+  // Always save to localStorage as backup
+  try { localStorage.setItem('chemdocs_v3', JSON.stringify(S)); } catch(e){}
+  // Debounce cloud save
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToCloud, 800);
+}
+
+async function saveToCloud() {
+  if (isSyncing) return;
+  isSyncing = true;
+  showSyncStatus('🔄 กำลังบันทึก...');
+  try {
+    // Save meta (everything except files)
+    const meta = {
+      companies: S.companies,
+      chemicals: S.chemicals,
+      docGroups: S.docGroups,
+      docGroupIcons: S.docGroupIcons,
+      openCo: S.openCo,
+      theme: S.theme,
+      notes: S.notes,
+    };
+    await supaSet('meta', JSON.stringify(meta));
+
+    // Save each chem's files separately
+    for (const chemId in S.files) {
+      const fileData = JSON.stringify(S.files[chemId]);
+      if (fileData.length > 5 * 1024 * 1024) {
+        showSyncStatus('⚠️ ไฟล์ใหญ่เกิน 5MB ต่อสารเคมี', false);
+        continue;
+      }
+      await supaSet('files_' + chemId, fileData);
+    }
+
+    showSyncStatus('✅ บันทึกแล้ว ' + new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}));
+  } catch(e) {
+    showSyncStatus('⚠️ บันทึกไม่สำเร็จ (offline)', false);
+  }
+  isSyncing = false;
+}
+
+// ══════════════════════════════
+// MOBILE SIDEBAR
+// ══════════════════════════════
+function toggleSidebar(){
+  const sb=document.querySelector('.sidebar');
+  const ov=document.getElementById('mobOverlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+function closeSidebar(){
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('show');
+}
+
+// ══════════════════════════════
+// THEME
+// ══════════════════════════════
+function toggleThemePicker() { document.getElementById('themePicker').classList.toggle('open'); }
+document.addEventListener('click', e => {
+  if (!e.target.closest('.theme-picker')) document.getElementById('themePicker').classList.remove('open');
+});
+function setTheme(t) {
+  document.body.dataset.theme = t; S.theme = t; save();
+  highlightThemeOption(t);
+  document.getElementById('themePicker').classList.remove('open');
+}
+function highlightThemeOption(t) {
+  document.querySelectorAll('.theme-option').forEach(el => {
+    el.classList.toggle('active', el.dataset.t === t);
+  });
+}
+
+// ══════════════════════════════
+// SIDEBAR
+// ══════════════════════════════
+function renderSidebar(filter='') {
+  const tree = document.getElementById('sidebarTree');
+  tree.innerHTML = '';
+  const fl = filter.toLowerCase();
+  S.companies.forEach(co => {
+    const chems = S.chemicals.filter(c=>c.companyId===co.id)
+      .sort((a,b)=>a.name.localeCompare(b.name,'th'))
+      .filter(c=>!fl || c.name.toLowerCase().includes(fl)||(c.nameTh||'').includes(fl));
+    const isOpen = S.openCo[co.id] !== false;
+    const wrap = document.createElement('div');
+    wrap.className = 'company-group';
+    wrap.innerHTML = `
+      <div class="company-header" onclick="toggleCo('${co.id}')">
+        <div class="company-logo-wrap">
+          <div class="company-logo">
+            ${co.logo ? `<img src="${co.logo}">` : `<span style="font-size:9px;text-align:center;line-height:1.3;padding:2px">LOGO</span>`}
+          </div>
+          <input class="logo-upload" type="file" accept="image/*" onclick="event.stopPropagation()" onchange="uploadLogo('${co.id}',this)">
+        </div>
+        <div class="company-name-wrap">
+          <div class="company-name-display" id="cnd-${co.id}"
+               onclick="event.stopPropagation();startEditCoName('${co.id}')"
+               title="คลิกเพื่อแก้ไขชื่อบริษัท">${co.name}</div>
+          <input class="company-name-input" id="cni-${co.id}"
+                 value="${co.name}"
+                 onclick="event.stopPropagation()"
+                 onblur="saveCoName('${co.id}')"
+                 onkeydown="if(event.key==='Enter')saveCoName('${co.id}');if(event.key==='Escape')cancelCoName('${co.id}')">
+          <div class="company-count">${chems.length} สารเคมี</div>
+        </div>
+        <span class="chevron ${isOpen?'open':''}">▶</span>
+      </div>
+      <div class="chemical-list" style="display:${isOpen?'block':'none'}">
+        ${chems.map((c,i)=>`
+          <div class="chemical-item ${S.selectedChem===c.id?'active':''}"
+               data-id="${c.id}"
+               onclick="selectChem('${c.id}')"
+               draggable="true"
+               ondragstart="dsStart(event,'${c.id}','${co.id}')"
+               ondragover="dsOver(event)"
+               ondrop="dsDrop(event,'${c.id}','${co.id}')"
+               ondragleave="dsLeave(event)">
+            <span class="drag-handle">⠿</span>
+            <div class="chem-dot"></div>
+            <div class="chem-name-wrap">
+              <div class="chem-label">${c.name}</div>
+              ${c.nameTh?`<div class="chem-thai">${c.nameTh}</div>`:''}
+            </div>
+          </div>`).join('')}
+        <button class="add-chem-btn" onclick="openAddChemFor('${co.id}')">＋ เพิ่มสารเคมี</button>
+      </div>
+    `;
+    tree.appendChild(wrap);
+  });
+}
+
+function toggleCo(id) { S.openCo[id] = !S.openCo[id]; save(); renderSidebar(document.getElementById('searchInput').value); }
+
+// inline edit company name
+function startEditCoName(id) {
+  document.getElementById('cnd-'+id).style.display='none';
+  const inp = document.getElementById('cni-'+id);
+  inp.style.display='block'; inp.focus(); inp.select();
+}
+function saveCoName(id) {
+  const inp = document.getElementById('cni-'+id);
+  const co = S.companies.find(c=>c.id===id);
+  if (co) { co.name = inp.value.trim()||co.name; save(); }
+  inp.style.display='none';
+  const disp = document.getElementById('cnd-'+id);
+  if (disp) { disp.textContent=co.name; disp.style.display=''; }
+  if (S.selectedChem) { const c=S.chemicals.find(x=>x.companyId===id); if(c&&S.selectedChem===c.id||S.chemicals.find(x=>x.id===S.selectedChem&&x.companyId===id)) renderDetail(S.selectedChem); }
+}
+function cancelCoName(id) {
+  const inp=document.getElementById('cni-'+id); inp.style.display='none';
+  document.getElementById('cnd-'+id).style.display='';
+}
+
+// logo
+function uploadLogo(coId, inp) {
+  const f=inp.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=e=>{ const co=S.companies.find(x=>x.id===coId); if(co){co.logo=e.target.result;save();renderSidebar();} };
+  r.readAsDataURL(f);
+}
+
+// ══════════════════════════════
+// SELECT CHEM & DETAIL
+// ══════════════════════════════
+function selectChem(id) {
+  S.selectedChem=id;
+  renderSidebar(document.getElementById('searchInput').value);
+  renderDetail(id);
+  // close sidebar on mobile
+  if(window.innerWidth<=768) closeSidebar();
+}
+
+function getGroupClass(g) {
+  return g==='MSDS'?'msds':g==='Leaflet'?'leaflet':g==='TDS'?'tds':'other';
+}
+
+function renderDetail(chemId) {
+  const chem = S.chemicals.find(c=>c.id===chemId);
+  if (!chem) return;
+  const co = S.companies.find(c=>c.id===chem.companyId);
+  const totalFiles = Object.values(S.files[chemId]||{}).reduce((s,a)=>s+a.length,0);
+
+  const sectionsHtml = S.docGroups.map(g => {
+    const files = (S.files[chemId]||{})[g]||[];
+    const note = (S.notes[chemId]||{})[g]||{text:'',images:[]};
+    const cls = getGroupClass(g);
+    const icon = S.docGroupIcons[g]||'🗂';
+    const noteImgsHtml = (note.images||[]).map(img=>`
+      <div class="note-img">
+        <img src="${img.dataUrl}" onclick="viewNoteImg('${img.dataUrl}')" title="คลิกเพื่อดู">
+        <button class="note-img-del" onclick="delNoteImg('${chemId}','${g}','${img.id}')">✕</button>
+      </div>`).join('');
+    return `
+      <div class="doc-section">
+        <div class="doc-section-header">
+          <div class="section-badge ${cls}">${icon} ${g}</div>
+          <span class="section-count">${files.length} ไฟล์</span>
+          <button class="btn-add-file">＋ เพิ่มไฟล์<input type="file" multiple onchange="addFiles('${chemId}','${g}',this)"></button>
+        </div>
+        <div class="doc-section-body">
+          <div class="files-grid" id="grid-${chemId}-${g}">
+            ${files.map(f=>fileCardHtml(chemId,g,f)).join('')}
+          </div>
+          <div class="drop-zone"
+               ondragover="dzOver(event)" ondragleave="dzLeave(event)"
+               ondrop="dzDrop(event,'${chemId}','${g}')">
+            <input type="file" multiple onchange="addFiles('${chemId}','${g}',this)">
+            <span class="drop-icon">📂</span>
+            ลากไฟล์มาวางที่นี่
+          </div>
+        </div>
+        <div class="note-row">
+          <div class="note-label">📝 บันทึก / หมายเหตุ</div>
+          <div class="note-area-wrap">
+            <textarea class="note-textarea" placeholder="พิมพ์บันทึก หรือโน๊ตเพิ่มเติม..."
+              onchange="saveNote('${chemId}','${g}',this.value)"
+              oninput="saveNote('${chemId}','${g}',this.value)">${note.text||''}</textarea>
+            <button class="btn-note-img" title="เพิ่มรูปในบันทึก">
+              🖼 รูป
+              <input type="file" accept="image/*" multiple onchange="addNoteImg('${chemId}','${g}',this)">
+            </button>
+          </div>
+          ${note.images&&note.images.length ? `<div class="note-images">${noteImgsHtml}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="detail-header">
+      <div class="chem-icon">⚗</div>
+      <div style="flex:1;min-width:0">
+        <div class="inline-edit-wrap">
+          <div class="inline-edit-display" id="ied-${chemId}"
+               onclick="startEditChemName('${chemId}')"
+               title="คลิกเพื่อแก้ไขชื่อ">${chem.name}</div>
+          <input class="inline-edit-input" id="iei-${chemId}"
+                 value="${chem.name}"
+                 onblur="saveChemName('${chemId}')"
+                 onkeydown="if(event.key==='Enter')saveChemName('${chemId}');if(event.key==='Escape')cancelChemName('${chemId}')">
+        </div>
+        <div>
+          <span class="inline-edit-sub" id="ieds-${chemId}"
+                onclick="startEditChemTh('${chemId}')"
+                title="คลิกเพื่อแก้ไขชื่อไทย">${chem.nameTh||'คลิกเพื่อเพิ่มชื่อภาษาไทย'}</span>
+          <input class="inline-edit-sub-input" id="ieis-${chemId}"
+                 value="${chem.nameTh||''}"
+                 placeholder="ชื่อภาษาไทย"
+                 onblur="saveChemTh('${chemId}')"
+                 onkeydown="if(event.key==='Enter')saveChemTh('${chemId}');if(event.key==='Escape')cancelChemTh('${chemId}')">
+        </div>
+        <div class="company-tag">🏢 ${co?co.name:'—'}</div>
+      </div>
+      <div class="detail-actions">
+        <button class="btn-hd" onclick="openMoveCompany('${chemId}')">🏢 ย้ายบริษัท</button>
+        <button class="btn-hd" onclick="openAddDocGroup('${chemId}')">➕ กลุ่ม</button>
+        <button class="btn-hd" onclick="dlChemAll('${chemId}')">⬇ ดาวน์โหลดทั้งหมด</button>
+        <button class="btn-hd" style="color:var(--msds-color)" onclick="deleteChem('${chemId}')">🗑</button>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-num">${totalFiles}</div><div class="stat-label">ไฟล์ทั้งหมด</div></div>
+      ${S.docGroups.map(g=>`<div class="stat-item">
+        <div class="stat-num" style="color:${g==='MSDS'?'var(--msds-color)':g==='Leaflet'?'var(--leaflet-color)':g==='TDS'?'var(--tds-color)':'#ab47bc'}">${((S.files[chemId]||{})[g]||[]).length}</div>
+        <div class="stat-label">${g}</div></div>`).join('')}
+    </div>
+    ${sectionsHtml}
+  `;
+}
+
+// inline edit chem name
+function startEditChemName(id) {
+  document.getElementById('ied-'+id).style.display='none';
+  const inp=document.getElementById('iei-'+id); inp.style.display='block'; inp.focus(); inp.select();
+}
+function saveChemName(id) {
+  const inp=document.getElementById('iei-'+id);
+  const c=S.chemicals.find(x=>x.id===id); if(!c) return;
+  c.name=inp.value.trim()||c.name; save(); renderSidebar();
+  const disp=document.getElementById('ied-'+id);
+  if(disp){disp.textContent=c.name;disp.style.display='';} inp.style.display='none';
+}
+function cancelChemName(id) {
+  const c=S.chemicals.find(x=>x.id===id);
+  document.getElementById('iei-'+id).style.display='none';
+  const d=document.getElementById('ied-'+id); d.style.display=''; if(c)d.textContent=c.name;
+}
+function startEditChemTh(id) {
+  document.getElementById('ieds-'+id).style.display='none';
+  const inp=document.getElementById('ieis-'+id); inp.style.display='inline-block'; inp.focus(); inp.select();
+}
+function saveChemTh(id) {
+  const inp=document.getElementById('ieis-'+id);
+  const c=S.chemicals.find(x=>x.id===id); if(!c) return;
+  c.nameTh=inp.value.trim(); save();
+  const d=document.getElementById('ieds-'+id);
+  if(d){d.textContent=c.nameTh||'คลิกเพื่อเพิ่มชื่อภาษาไทย';d.style.display='';} inp.style.display='none';
+}
+function cancelChemTh(id) {
+  const c=S.chemicals.find(x=>x.id===id);
+  document.getElementById('ieis-'+id).style.display='none';
+  const d=document.getElementById('ieds-'+id); d.style.display=''; if(c)d.textContent=c.nameTh||'คลิกเพื่อเพิ่มชื่อภาษาไทย';
+}
+
+// move company
+function openMoveCompany(chemId) {
+  const c=S.chemicals.find(x=>x.id===chemId);
+  document.getElementById('editChemBody').innerHTML=`
+    <div class="form-group"><label class="form-label">ย้ายไปบริษัท</label>
+      <select class="form-select" id="moveCoSel">
+        ${S.companies.map(co=>`<option value="${co.id}" ${co.id===c.companyId?'selected':''}>${co.name}</option>`).join('')}
+      </select></div>`;
+  document.getElementById('editChemSaveBtn').onclick=()=>{
+    c.companyId=document.getElementById('moveCoSel').value;
+    save(); renderSidebar(); renderDetail(chemId); closeModal('modalEditChem'); showNotif('✅ ย้ายแล้ว');
+  };
+  document.getElementById('modalEditChem').style.display='flex';
+}
+
+// ══════════════════════════════
+// FILE CARDS
+// ══════════════════════════════
+function fileCardHtml(chemId, group, f) {
+  const cls=getGroupClass(group);
+  const ext=f.name.split('.').pop().toLowerCase();
+  const icon=ext==='pdf'?'📄':['jpg','jpeg','png','gif','webp','svg'].includes(ext)?'🖼':['doc','docx'].includes(ext)?'📝':['xls','xlsx','csv'].includes(ext)?'📊':['ppt','pptx'].includes(ext)?'📑':'📁';
+  const tc=ext==='pdf'?'pdf':['jpg','jpeg','png','gif','webp'].includes(ext)?'img':['doc','docx'].includes(ext)?'word':['xls','xlsx','csv'].includes(ext)?'excel':['ppt','pptx'].includes(ext)?'ppt':'other-f';
+  const sz=f.size?(f.size>1048576?(f.size/1048576).toFixed(1)+'MB':(f.size/1024).toFixed(0)+'KB'):'';
+  const dt=f.added?new Date(f.added).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'}):'';
+  return `
+    <div class="file-card ${cls}">
+      <div class="file-top">
+        <div class="file-type-icon ${tc}">${icon}</div>
+        <div class="file-info">
+          <div class="file-name-display" id="fnd-${f.id}"
+               onclick="startEditFileName('${chemId}','${group}','${f.id}')"
+               title="คลิกเพื่อเปลี่ยนชื่อ">${f.name}</div>
+          <input class="file-name-input" id="fni-${f.id}" value="${f.name}"
+                 onblur="saveFileName('${chemId}','${group}','${f.id}')"
+                 onkeydown="if(event.key==='Enter')saveFileName('${chemId}','${group}','${f.id}');if(event.key==='Escape')cancelFileName('${f.id}')">
+          <div class="file-meta">${sz}${sz&&dt?' · ':''}${dt}</div>
+        </div>
+      </div>
+      <div class="file-actions">
+        <button class="file-btn open-btn" onclick="openFile('${chemId}','${group}','${f.id}')">👁 เปิด</button>
+        <button class="file-btn open-btn" onclick="dlFile('${chemId}','${group}','${f.id}')">⬇</button>
+        <button class="file-btn del" onclick="delFile('${chemId}','${group}','${f.id}')">🗑</button>
+      </div>
+    </div>`;
+}
+
+// inline rename file
+function startEditFileName(chemId,group,fileId) {
+  document.getElementById('fnd-'+fileId).style.display='none';
+  const inp=document.getElementById('fni-'+fileId); inp.style.display='block'; inp.focus(); inp.select();
+}
+function saveFileName(chemId,group,fileId) {
+  const inp=document.getElementById('fni-'+fileId);
+  const f=((S.files[chemId]||{})[group]||[]).find(x=>x.id===fileId);
+  if(f){f.name=inp.value.trim()||f.name; save();}
+  const d=document.getElementById('fnd-'+fileId);
+  if(d){d.textContent=f?f.name:inp.value;d.style.display='';} inp.style.display='none';
+}
+function cancelFileName(fileId) {
+  document.getElementById('fni-'+fileId).style.display='none';
+  document.getElementById('fnd-'+fileId).style.display='';
+}
+
+// ══════════════════════════════
+// FILES ADD/DELETE (Supabase Storage)
+// ══════════════════════════════
+const STORAGE_BUCKET = 'chemdocs-files';
+const STORAGE_URL = `${SUPA_URL}/storage/v1/object/${STORAGE_BUCKET}`;
+const STORAGE_PUBLIC = `${SUPA_URL}/storage/v1/object/public/${STORAGE_BUCKET}`;
+
+async function uploadToStorage(file, path) {
+  const r = await fetch(`${STORAGE_URL}/${path}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': file.type || 'application/octet-stream',
+      'x-upsert': 'true'
+    },
+    body: file
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return `${STORAGE_PUBLIC}/${path}`;
+}
+
+async function deleteFromStorage(path) {
+  await fetch(`${STORAGE_URL}/${path}`, {
+    method: 'DELETE',
+    headers: {'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY}
+  });
+}
+
+async function addFiles(chemId, group, input) {
+  const files = Array.from(input.files); if (!files.length) return;
+  if (!S.files[chemId]) S.files[chemId] = {};
+  if (!S.files[chemId][group]) S.files[chemId][group] = [];
+  showNotif(`⏳ กำลังอัปโหลด ${files.length} ไฟล์...`);
+  let done = 0;
+  for (const file of files) {
+    try {
+      const fileId = 'f' + Date.now() + Math.random().toString(36).slice(2);
+      const path = `${chemId}/${group}/${fileId}_${file.name}`;
+      const url = await uploadToStorage(file, path);
+      S.files[chemId][group].push({
+        id: fileId, name: file.name, type: file.type,
+        size: file.size, storageUrl: url, storagePath: path, added: Date.now()
+      });
+      done++;
+    } catch(e) {
+      showNotif(`❌ อัปโหลด ${file.name} ไม่สำเร็จ`, '#ef5350');
+    }
+  }
+  save(); renderDetail(chemId);
+  showNotif(`✅ อัปโหลด ${done}/${files.length} ไฟล์ → ${group}`);
+}
+
+async function delFile(chemId, group, fileId) {
+  if (!confirm('ลบไฟล์นี้?')) return;
+  const f = ((S.files[chemId]||{})[group]||[]).find(x=>x.id===fileId);
+  if (f && f.storagePath) {
+    try { await deleteFromStorage(f.storagePath); } catch(e) {}
+  }
+  S.files[chemId][group] = S.files[chemId][group].filter(x=>x.id!==fileId);
+  save(); renderDetail(chemId); showNotif('🗑 ลบไฟล์แล้ว','var(--msds-color)');
+}
+
+// ══════════════════════════════
+// NOTES
+// ══════════════════════════════
+function saveNote(chemId,group,text) {
+  if(!S.notes[chemId]) S.notes[chemId]={};
+  if(!S.notes[chemId][group]) S.notes[chemId][group]={text:'',images:[]};
+  S.notes[chemId][group].text=text; save();
+}
+function addNoteImg(chemId,group,input) {
+  const files=Array.from(input.files); if(!files.length) return;
+  if(!S.notes[chemId]) S.notes[chemId]={};
+  if(!S.notes[chemId][group]) S.notes[chemId][group]={text:'',images:[]};
+  let done=0;
+  files.forEach(file=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      S.notes[chemId][group].images.push({id:'ni'+Date.now()+Math.random().toString(36).slice(2),dataUrl:e.target.result});
+      if(++done===files.length){save();renderDetail(chemId);}
+    };
+    r.readAsDataURL(file);
+  });
+}
+function delNoteImg(chemId,group,imgId) {
+  S.notes[chemId][group].images=S.notes[chemId][group].images.filter(x=>x.id!==imgId);
+  save(); renderDetail(chemId);
+}
+function viewNoteImg(dataUrl) {
+  currentViewFile={dataUrl,name:'note-image'};
+  document.getElementById('viewerFileName').textContent='รูปในบันทึก';
+  document.getElementById('viewerContent').innerHTML=`<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px"><img src="${dataUrl}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px"></div>`;
+  document.getElementById('fileViewer').style.display='flex';
+}
+
+// ══════════════════════════════
+// OPEN / DOWNLOAD / VIEW
+// ══════════════════════════════
+function openFile(chemId,group,fileId) {
+  const f=((S.files[chemId]||{})[group]||[]).find(x=>x.id===fileId); if(!f) return;
+  currentViewFile=f;
+  document.getElementById('viewerFileName').textContent=f.name;
+  const ext=f.name.split('.').pop().toLowerCase();
+  const url = f.storageUrl || f.dataUrl || '';
+  let html='';
+  if(ext==='pdf') html=`<iframe class="viewer-frame" src="${url}" style="width:100%;height:100%;border:none"></iframe>`;
+  else if(['jpg','jpeg','png','gif','webp','svg'].includes(ext)) html=`<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px"><img src="${url}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px"></div>`;
+  else html=`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-secondary)"><div style="font-size:72px">📄</div><div style="font-size:18px">${f.name}</div><div style="font-size:14px;color:var(--text-dim)">กดดาวน์โหลดเพื่อเปิดไฟล์</div><a href="${url}" target="_blank" download="${f.name}"><button class="btn-primary">⬇ ดาวน์โหลด</button></a></div>`;
+  document.getElementById('viewerContent').innerHTML=html;
+  document.getElementById('fileViewer').style.display='flex';
+}
+function closeViewer() { document.getElementById('fileViewer').style.display='none'; document.getElementById('viewerContent').innerHTML=''; currentViewFile=null; }
+function downloadCurrent() {
+  if(!currentViewFile) return;
+  const url = currentViewFile.storageUrl || currentViewFile.dataUrl;
+  if(url) { const a=document.createElement('a');a.href=url;a.download=currentViewFile.name;a.target='_blank';a.click(); }
+}
+function dlFile(chemId,group,fileId) {
+  const f=((S.files[chemId]||{})[group]||[]).find(x=>x.id===fileId);
+  if(f){ const url=f.storageUrl||f.dataUrl; if(url){const a=document.createElement('a');a.href=url;a.download=f.name;a.target='_blank';a.click();} }
+}
+function dlBlob(url,name) { const a=document.createElement('a');a.href=url;a.download=name;a.click(); }
+
+async function dlChemAll(chemId) {
+  const chem=S.chemicals.find(c=>c.id===chemId);
+  let count=0;
+  for(const g in S.files[chemId]||{}) for(const f of S.files[chemId][g]||[]) {
+    dlBlob(f.dataUrl,`${chem.name}_${g}_${f.name}`); await new Promise(r=>setTimeout(r,250)); count++;
+  }
+  showNotif(count?`⬇ ดาวน์โหลด ${count} ไฟล์`:'ไม่มีไฟล์', count?undefined:'#ffa726');
+}
+
+async function exportAll() {
+  let count=0;
+  for(const chemId in S.files) {
+    const chem=S.chemicals.find(c=>c.id===chemId); if(!chem) continue;
+    for(const g in S.files[chemId]) for(const f of S.files[chemId][g]||[]) {
+      dlBlob(f.dataUrl,`${chem.name}_${g}_${f.name}`); await new Promise(r=>setTimeout(r,300)); count++;
+    }
+  }
+  showNotif(count?`⬇ Export ${count} ไฟล์ทั้งหมด`:'ไม่มีไฟล์', count?undefined:'#ffa726');
+}
+
+// ══════════════════════════════
+// DROP ZONES
+// ══════════════════════════════
+function dzOver(e){e.preventDefault();e.currentTarget.classList.add('dragover')}
+function dzLeave(e){e.currentTarget.classList.remove('dragover')}
+function dzDrop(e,chemId,group){e.preventDefault();e.currentTarget.classList.remove('dragover');const files=Array.from(e.dataTransfer.files);if(files.length)addFiles(chemId,group,{files});}
+
+// ══════════════════════════════
+// DRAG SORT CHEMICALS
+// ══════════════════════════════
+let dsId=null,dsCo=null;
+function dsStart(e,id,coId){dsId=id;dsCo=coId;e.dataTransfer.effectAllowed='move';}
+function dsOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function dsLeave(e){e.currentTarget.classList.remove('drag-over');}
+function dsDrop(e,tId,coId){
+  e.preventDefault();e.currentTarget.classList.remove('drag-over');
+  if(!dsId||dsId===tId||dsCo!==coId) return;
+  const chems=S.chemicals.filter(c=>c.companyId===coId).sort((a,b)=>a.order-b.order);
+  const fi=chems.findIndex(c=>c.id===dsId), ti=chems.findIndex(c=>c.id===tId);
+  const [m]=chems.splice(fi,1); chems.splice(ti,0,m); chems.forEach((c,i)=>c.order=i);
+  dsId=null; save(); renderSidebar();
+}
+
+// ══════════════════════════════
+// BULK IMPORT
+// ══════════════════════════════
+function openBulkImport() {
+  importPendingFiles=[];
+  const coSel=document.getElementById('importCoSel');
+  coSel.innerHTML=S.companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  updateImportChemSel();
+  // populate default group selector
+  const dgSel=document.getElementById('importDefaultGroup');
+  dgSel.innerHTML=S.docGroups.map(g=>`<option value="${g}">${S.docGroupIcons[g]||'🗂'} ${g}</option>`).join('');
+  document.getElementById('importFileList').innerHTML='';
+  document.getElementById('modalImport').style.display='flex';
+}
+function applyDefaultGroup(group) {
+  importPendingFiles.forEach(obj=>obj.group=group);
+  renderImportList();
+  showNotif(`✅ ตั้งกลุ่มทุกไฟล์ → ${group}`);
+}
+function updateImportChemSel() {
+  const coId=document.getElementById('importCoSel').value;
+  const chemSel=document.getElementById('importChemSel');
+  const chems=S.chemicals.filter(c=>c.companyId===coId).sort((a,b)=>a.order-b.order);
+  chemSel.innerHTML=chems.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+}
+function importDzOver(e){e.preventDefault();document.getElementById('importDropZone').classList.add('dragover');}
+function importDzLeave(e){document.getElementById('importDropZone').classList.remove('dragover');}
+function importDzDrop(e){e.preventDefault();document.getElementById('importDropZone').classList.remove('dragover');addImportFiles(Array.from(e.dataTransfer.files));}
+function importFilesSelected(inp){addImportFiles(Array.from(inp.files));inp.value='';}
+function addImportFiles(files) {
+  const defaultGroup = (document.getElementById('importDefaultGroup')||{}).value || S.docGroups[0];
+  files.forEach(file=>{
+    const ext=file.name.split('.').pop().toLowerCase();
+    const icon=ext==='pdf'?'📄':['jpg','jpeg','png','gif','webp','svg'].includes(ext)?'🖼':['doc','docx'].includes(ext)?'📝':['xls','xlsx','csv'].includes(ext)?'📊':['ppt','pptx'].includes(ext)?'📑':'📁';
+    const obj={file,name:file.name,id:'ip'+Date.now()+Math.random().toString(36).slice(2),icon,group:defaultGroup};
+    importPendingFiles.push(obj);
+  });
+  renderImportList();
+}
+function renderImportList() {
+  const list=document.getElementById('importFileList');
+  if (!importPendingFiles.length) { list.innerHTML=''; return; }
+  list.innerHTML=`
+    <div style="font-size:12px;color:var(--text-dim);padding:4px 2px 8px;letter-spacing:.3px">
+      ไฟล์ที่รอ Import (${importPendingFiles.length} ไฟล์) — แก้ไขชื่อและกลุ่มได้แต่ละไฟล์
+    </div>`+
+  importPendingFiles.map((obj,i)=>`
+    <div class="import-file-row">
+      <span class="import-file-icon">${obj.icon}</span>
+      <input class="import-file-name-input" value="${obj.name}"
+             onchange="importPendingFiles[${i}].name=this.value" placeholder="ชื่อไฟล์">
+      <select class="import-group-sel" onchange="importPendingFiles[${i}].group=this.value">
+        ${S.docGroups.map(g=>`<option value="${g}" ${(obj.group||S.docGroups[0])===g?'selected':''}>${S.docGroupIcons[g]||'🗂'} ${g}</option>`).join('')}
+      </select>
+      <button class="import-remove" onclick="removeImportFile(${i})">✕</button>
+    </div>`).join('');
+}
+function removeImportFile(i){importPendingFiles.splice(i,1);renderImportList();}
+function confirmImport() {
+  const chemId=document.getElementById('importChemSel').value;
+  if(!chemId||!importPendingFiles.length){showNotif('⚠️ เลือกสารเคมีและเพิ่มไฟล์ก่อน','#ffa726');return;}
+  if(!S.files[chemId]) S.files[chemId]={};
+  let done=0;const total=importPendingFiles.length;
+  importPendingFiles.forEach(obj=>{
+    const group=obj.group||S.docGroups[0];
+    if(!S.files[chemId][group]) S.files[chemId][group]=[];
+    const r=new FileReader();
+    r.onload=e=>{
+      S.files[chemId][group].push({id:'f'+Date.now()+Math.random().toString(36).slice(2),name:obj.name,type:obj.file.type,size:obj.file.size,dataUrl:e.target.result,added:Date.now()});
+      if(++done===total){save();closeModal('modalImport');if(S.selectedChem===chemId)renderDetail(chemId);showNotif(`✅ Import ${total} ไฟล์สำเร็จ`);}
+    };
+    r.readAsDataURL(obj.file);
+  });
+}
+
+// ══════════════════════════════
+// COMPANIES & CHEMICALS
+// ══════════════════════════════
+function openAddCompany(){document.getElementById('coName').value='';document.getElementById('coNameTh').value='';document.getElementById('modalCompany').style.display='flex';}
+function saveCompany(){
+  const name=document.getElementById('coName').value.trim(); if(!name) return;
+  const id='co_'+Date.now();
+  S.companies.push({id,name,nameTh:document.getElementById('coNameTh').value.trim(),logo:null});
+  S.openCo[id]=true; closeModal('modalCompany');
+  save();
+  if(saveTimer) clearTimeout(saveTimer);
+  saveToCloud();
+  renderSidebar();
+  showNotif(`✅ เพิ่มบริษัท ${name}`);
+}
+
+function openAddChemical(){
+  document.getElementById('chemCoSel').innerHTML=S.companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  document.getElementById('chemName').value=''; document.getElementById('chemNameTh').value='';
+  document.getElementById('modalChemical').style.display='flex';
+}
+function openAddChemFor(coId){openAddChemical();document.getElementById('chemCoSel').value=coId;}
+function saveChem(){
+  const name=document.getElementById('chemName').value.trim();
+  const coId=document.getElementById('chemCoSel').value;
+  if(!name||!coId) return;
+  const id='ch_'+Date.now();
+  S.chemicals.push({id,companyId:coId,name,nameTh:document.getElementById('chemNameTh').value.trim(),order:Date.now()});
+  closeModal('modalChemical');
+  save();
+  // force immediate cloud save
+  if(saveTimer) clearTimeout(saveTimer);
+  saveToCloud();
+  renderSidebar();
+  showNotif(`✅ เพิ่ม ${name}`);
+}
+
+function deleteChem(chemId){
+  if(!confirm('ลบสารเคมีนี้และเอกสารทั้งหมด?')) return;
+  S.chemicals=S.chemicals.filter(c=>c.id!==chemId);
+  delete S.files[chemId]; delete S.notes[chemId];
+  S.selectedChem=null; save();
+  supaDelete('files_' + chemId); // clean up cloud
+  renderSidebar();
+  document.getElementById('mainContent').innerHTML='<div class="empty-state"><div class="empty-icon">⚗</div><p>เลือกสารเคมีเพื่อดูเอกสาร</p></div>';
+  showNotif('🗑 ลบแล้ว','var(--msds-color)');
+}
+
+// ══════════════════════════════
+// DOC GROUPS
+// ══════════════════════════════
+function openAddDocGroup(chemId){
+  pendingGroupChemId=chemId;
+  document.getElementById('dgName').value=''; document.getElementById('dgIcon').value='🗂';
+  document.getElementById('modalDocGroup').style.display='flex';
+}
+function saveDocGroup(){
+  const name=document.getElementById('dgName').value.trim();
+  const icon=document.getElementById('dgIcon').value.trim()||'🗂';
+  if(!name) return;
+  if(!S.docGroups.includes(name)){S.docGroups.push(name);S.docGroupIcons[name]=icon;}
+  closeModal('modalDocGroup'); save();
+  if(pendingGroupChemId) renderDetail(pendingGroupChemId);
+  showNotif(`✅ เพิ่มกลุ่ม ${name}`);
+}
+
+// ══════════════════════════════
+// UTILS
+// ══════════════════════════════
+function closeModal(id){document.getElementById(id).style.display='none';}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeViewer();
+    document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none');
+  }
+});
+function showNotif(msg,color='var(--accent)'){
+  const n=document.createElement('div'); n.className='notif'; n.style.borderColor=color; n.textContent=msg;
+  document.body.appendChild(n); setTimeout(()=>n.remove(),3200);
+}
+
+// ══════════════════════════════
+// BACKUP & RESTORE
+// ══════════════════════════════
+let restorePendingData = null;
+
+function openBackupModal() {
+  updateStorageMeter();
+  updateLastBackupTime();
+  restorePendingData = null;
+  document.getElementById('restorePreview').style.display = 'none';
+  document.getElementById('restoreDropZone').style.display = 'block';
+  const inp = document.getElementById('restoreFileInput');
+  if (inp) inp.value = '';
+  document.getElementById('modalBackup').style.display = 'flex';
+}
+
+function updateStorageMeter() {
+  try {
+    const raw = localStorage.getItem('chemdocs_v3') || '';
+    const bytes = new Blob([raw]).size;
+    const maxBytes = 5 * 1024 * 1024; // 5MB estimate
+    const pct = Math.min((bytes / maxBytes) * 100, 100);
+    const kb = (bytes / 1024).toFixed(1);
+    const mb = (bytes / 1024 / 1024).toFixed(2);
+
+    document.getElementById('storageText').textContent = kb > 1024 ? `${mb} MB / ~5 MB` : `${kb} KB / ~5 MB`;
+    const bar = document.getElementById('storageBarFill');
+    bar.style.width = pct + '%';
+    bar.className = 'storage-bar-fill' + (pct > 85 ? ' danger' : pct > 60 ? ' warn' : '');
+
+    // Count stats
+    const totalFiles = Object.values(S.files).reduce((s,g)=>s+Object.values(g).reduce((ss,a)=>ss+a.length,0),0);
+    document.getElementById('storageDetail').textContent =
+      `บริษัท ${S.companies.length} | สารเคมี ${S.chemicals.length} | ไฟล์ ${totalFiles} ไฟล์ | ใช้งาน ${pct.toFixed(1)}%`;
+  } catch(e) {}
+}
+
+function updateLastBackupTime() {
+  const t = localStorage.getItem('chemdocs_lastbackup');
+  const el = document.getElementById('lastBackupTime');
+  if (t) {
+    const d = new Date(parseInt(t));
+    el.textContent = d.toLocaleString('th-TH', {day:'numeric',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+    el.style.color = (Date.now() - parseInt(t) > 7*24*3600*1000) ? '#ffa726' : 'var(--text-dim)';
+  } else {
+    el.textContent = 'ยังไม่เคย Backup ⚠️';
+    el.style.color = '#ef5350';
+  }
+}
+
+// Full backup (includes file dataUrls)
+function doBackupFull() {
+  const data = JSON.stringify(S, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const now = new Date();
+  const stamp = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+  a.href = url; a.download = `chemdocs_backup_full_${stamp}.json`; a.click();
+  URL.revokeObjectURL(url);
+  localStorage.setItem('chemdocs_lastbackup', Date.now());
+  updateLastBackupTime();
+  showNotif('✅ Backup เสร็จแล้ว — เก็บไฟล์ .json ไว้ให้ดีนะครับ');
+}
+
+// Meta-only backup (no file dataUrls — small size)
+function doBackupMeta() {
+  const meta = {
+    companies: S.companies.map(c=>({...c, logo:c.logo?'[logo_image]':null})),
+    chemicals: S.chemicals,
+    docGroups: S.docGroups,
+    docGroupIcons: S.docGroupIcons,
+    notes: {},  // notes text only, no images
+    files: {},  // file names/metadata only, no dataUrl
+    theme: S.theme,
+    _type: 'meta_only',
+    _exported: new Date().toISOString(),
+  };
+  // notes text
+  for (const cid in S.notes) {
+    meta.notes[cid] = {};
+    for (const g in S.notes[cid]) {
+      meta.notes[cid][g] = { text: S.notes[cid][g].text || '', images: [] };
+    }
+  }
+  // file metadata
+  for (const cid in S.files) {
+    meta.files[cid] = {};
+    for (const g in S.files[cid]) {
+      meta.files[cid][g] = (S.files[cid][g]||[]).map(f=>({
+        id:f.id, name:f.name, type:f.type, size:f.size, added:f.added
+        // no dataUrl
+      }));
+    }
+  }
+  const blob = new Blob([JSON.stringify(meta,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href=url; a.download=`chemdocs_backup_meta_${stamp}.json`; a.click();
+  URL.revokeObjectURL(url);
+  localStorage.setItem('chemdocs_lastbackup', Date.now());
+  updateLastBackupTime();
+  showNotif('✅ Backup โครงสร้างเสร็จแล้ว (ไม่รวมไฟล์เอกสาร)');
+}
+
+// Restore
+function restoreDzOver(e){e.preventDefault();document.getElementById('restoreDropZone').classList.add('dragover');}
+function restoreDzLeave(e){document.getElementById('restoreDropZone').classList.remove('dragover');}
+function restoreDzDrop(e){
+  e.preventDefault(); document.getElementById('restoreDropZone').classList.remove('dragover');
+  const f = e.dataTransfer.files[0];
+  if (f && f.name.endsWith('.json')) readRestoreFile(f);
+  else showNotif('⚠️ กรุณาใช้ไฟล์ .json เท่านั้น','#ffa726');
+}
+function restoreFromFile(inp) {
+  const f = inp.files[0]; if (!f) return;
+  readRestoreFile(f);
+}
+function readRestoreFile(file) {
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.companies || !data.chemicals) throw new Error('ไฟล์ไม่ถูกต้อง');
+      restorePendingData = data;
+      showRestorePreview(data, file.name);
+    } catch(err) {
+      showNotif('❌ ไฟล์ไม่ถูกต้อง หรือไม่ใช่ไฟล์ Backup ของระบบนี้','#ef5350');
+    }
+  };
+  r.readAsText(file);
+}
+function showRestorePreview(data, filename) {
+  const isMeta = data._type === 'meta_only';
+  const totalFiles = Object.values(data.files||{}).reduce((s,g)=>s+Object.values(g).reduce((ss,a)=>ss+a.length,0),0);
+  const exported = data._exported ? new Date(data._exported).toLocaleString('th-TH') : '—';
+
+  document.getElementById('restorePreviewContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:22px">${isMeta?'📋':'💾'}</span>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text-primary)">${filename}</div>
+        <div style="font-size:12px;color:var(--text-dim)">Backup เมื่อ: ${exported}</div>
+      </div>
+      <span style="margin-left:auto;font-size:11px;padding:3px 10px;border-radius:20px;background:${isMeta?'rgba(255,167,38,.15)':'rgba(29,233,182,.12)'};color:${isMeta?'#ffa726':'var(--accent)'};border:1px solid currentColor">${isMeta?'โครงสร้างเท่านั้น':'Full Backup'}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:var(--bg-panel);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:22px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif">${(data.companies||[]).length}</div>
+        <div style="font-size:11px;color:var(--text-dim)">บริษัท</div>
+      </div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:22px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif">${(data.chemicals||[]).length}</div>
+        <div style="font-size:11px;color:var(--text-dim)">สารเคมี</div>
+      </div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:22px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif">${totalFiles}</div>
+        <div style="font-size:11px;color:var(--text-dim)">ไฟล์เอกสาร</div>
+      </div>
+    </div>
+    ${isMeta ? `<div style="padding:8px 12px;background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.3);border-radius:8px;font-size:12px;color:#ffa726;margin-bottom:4px">⚠️ นี่คือ Backup โครงสร้างเท่านั้น — ไฟล์เอกสารจะไม่ถูก Restore (จะแสดงเป็นรายชื่อไฟล์เปล่าๆ)</div>` : ''}
+    <div style="padding:8px 12px;background:rgba(239,83,80,.08);border:1px solid rgba(239,83,80,.25);border-radius:8px;font-size:12px;color:#ef5350">
+      ⚠️ การ Restore จะ<strong>แทนที่ข้อมูลทั้งหมด</strong>ในระบบปัจจุบัน — แนะนำ Backup ข้อมูลปัจจุบันก่อน
+    </div>`;
+
+  document.getElementById('restoreDropZone').style.display = 'none';
+  document.getElementById('restorePreview').style.display = 'block';
+  document.getElementById('restoreConfirmBtn').onclick = () => confirmRestore(data);
+}
+function cancelRestore() {
+  restorePendingData = null;
+  document.getElementById('restorePreview').style.display = 'none';
+  document.getElementById('restoreDropZone').style.display = 'block';
+  const inp = document.getElementById('restoreFileInput');
+  if (inp) inp.value = '';
+}
+function confirmRestore(data) {
+  try {
+    // merge into S carefully
+    S.companies = data.companies || S.companies;
+    S.chemicals = data.chemicals || S.chemicals;
+    S.docGroups = data.docGroups || S.docGroups;
+    S.docGroupIcons = data.docGroupIcons || S.docGroupIcons;
+    S.files = data.files || {};
+    S.notes = data.notes || {};
+    S.openCo = {};
+    S.companies.forEach(c => S.openCo[c.id] = true);
+    if (data.theme) { S.theme = data.theme; document.body.dataset.theme = data.theme; highlightThemeOption(data.theme); }
+    S.selectedChem = null;
+    save();
+    renderSidebar();
+    document.getElementById('mainContent').innerHTML = '<div class="empty-state"><div class="empty-icon">⚗</div><p>Restore สำเร็จ — เลือกสารเคมีเพื่อดูเอกสาร</p></div>';
+    closeModal('modalBackup');
+    showNotif('✅ Restore สำเร็จแล้ว!');
+  } catch(err) {
+    showNotif('❌ Restore ล้มเหลว: ' + err.message, '#ef5350');
+  }
+}
+
+// ══════════════════════════════
+// START
+// ══════════════════════════════
+init().then(() => {
+  renderSidebar();
+});
+</script>
+</body>
+</html>
