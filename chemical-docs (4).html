@@ -814,12 +814,24 @@ async function supaGet(key) {
 
 async function supaSet(key, value) {
   try {
-    const r = await fetch(`${SUPA_URL}/rest/v1/${SUPA_TABLE}`, {
+    // Try update first
+    const upd = await fetch(`${SUPA_URL}/rest/v1/${SUPA_TABLE}?key=eq.${encodeURIComponent(key)}`, {
+      method: 'PATCH',
+      headers: {...SUPA_HEADERS, 'Prefer': 'return=minimal'},
+      body: JSON.stringify({value})
+    });
+    if (upd.ok) {
+      // Check if row existed (PATCH returns 204 even if no rows matched in some versions)
+      const check = await supaGet(key);
+      if (check !== null) return true;
+    }
+    // If not exist, INSERT
+    const ins = await fetch(`${SUPA_URL}/rest/v1/${SUPA_TABLE}`, {
       method: 'POST',
-      headers: SUPA_HEADERS,
+      headers: {...SUPA_HEADERS, 'Prefer': 'return=minimal'},
       body: JSON.stringify({key, value})
     });
-    return r.ok;
+    return ins.ok;
   } catch(e) { return false; }
 }
 
@@ -998,7 +1010,7 @@ function renderSidebar(filter='') {
   const fl = filter.toLowerCase();
   S.companies.forEach(co => {
     const chems = S.chemicals.filter(c=>c.companyId===co.id)
-      .sort((a,b)=>a.order-b.order)
+      .sort((a,b)=>a.name.localeCompare(b.name,'th'))
       .filter(c=>!fl || c.name.toLowerCase().includes(fl)||(c.nameTh||'').includes(fl));
     const isOpen = S.openCo[co.id] !== false;
     const wrap = document.createElement('div');
@@ -1534,7 +1546,11 @@ function saveCompany(){
   const name=document.getElementById('coName').value.trim(); if(!name) return;
   const id='co_'+Date.now();
   S.companies.push({id,name,nameTh:document.getElementById('coNameTh').value.trim(),logo:null});
-  S.openCo[id]=true; closeModal('modalCompany'); save(); renderSidebar();
+  S.openCo[id]=true; closeModal('modalCompany');
+  save();
+  if(saveTimer) clearTimeout(saveTimer);
+  saveToCloud();
+  renderSidebar();
   showNotif(`✅ เพิ่มบริษัท ${name}`);
 }
 
@@ -1548,9 +1564,15 @@ function saveChem(){
   const name=document.getElementById('chemName').value.trim();
   const coId=document.getElementById('chemCoSel').value;
   if(!name||!coId) return;
-  const maxO=Math.max(-1,...S.chemicals.filter(c=>c.companyId===coId).map(c=>c.order));
-  S.chemicals.push({id:'ch_'+Date.now(),companyId:coId,name,nameTh:document.getElementById('chemNameTh').value.trim(),order:maxO+1});
-  closeModal('modalChemical'); save(); renderSidebar(); showNotif(`✅ เพิ่ม ${name}`);
+  const id='ch_'+Date.now();
+  S.chemicals.push({id,companyId:coId,name,nameTh:document.getElementById('chemNameTh').value.trim(),order:Date.now()});
+  closeModal('modalChemical');
+  save();
+  // force immediate cloud save
+  if(saveTimer) clearTimeout(saveTimer);
+  saveToCloud();
+  renderSidebar();
+  showNotif(`✅ เพิ่ม ${name}`);
 }
 
 function deleteChem(chemId){
