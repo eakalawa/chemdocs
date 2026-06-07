@@ -445,7 +445,63 @@ header h1 span{color:var(--accent)}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:3px}
 
-/* ── BACKUP MODAL ── */
+/* ── MOBILE RESPONSIVE ── */
+.mob-menu-btn{display:none;background:none;border:none;color:var(--text-primary);font-size:22px;cursor:pointer;padding:4px 8px;flex-shrink:0}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;backdrop-filter:blur(2px)}
+.mob-overlay.show{display:block}
+
+@media(max-width:768px){
+  /* header */
+  header{padding:0 12px;height:54px;gap:8px}
+  header h1{font-size:17px}
+  #syncStatus{display:none}
+  .header-right{gap:5px}
+  .btn-hd{padding:6px 8px;font-size:12px;gap:4px}
+  .btn-primary{padding:6px 8px;font-size:12px}
+  /* hide text labels on small screens */
+  .btn-hd span.btn-label,.btn-primary span.btn-label{display:none}
+
+  /* hamburger */
+  .mob-menu-btn{display:flex;align-items:center;justify-content:center}
+
+  /* sidebar becomes drawer */
+  .sidebar{
+    position:fixed;left:0;top:54px;bottom:0;
+    width:85vw;max-width:320px;
+    z-index:60;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+
+  /* main takes full width */
+  .app-body{height:calc(100vh - 54px)}
+  .main{padding:16px 14px}
+
+  /* detail header stack */
+  .detail-header{flex-wrap:wrap;gap:12px}
+  .detail-actions{width:100%;justify-content:flex-start;margin-left:0}
+  .inline-edit-display{font-size:22px}
+  .inline-edit-input{width:100%;font-size:22px}
+
+  /* files grid 1 col */
+  .files-grid{grid-template-columns:1fr}
+
+  /* stats bar scroll */
+  .stats-bar{flex-wrap:nowrap;overflow-x:auto;padding-bottom:10px}
+  .stat-num{font-size:22px}
+
+  /* modal full width */
+  .modal{width:95vw!important;padding:18px}
+  .modal h3{font-size:18px}
+
+  /* theme dropdown */
+  .theme-dropdown{right:auto;left:0;min-width:180px}
+
+  /* company header */
+  .company-name-display{font-size:17px}
+}
 .btn-backup{border-color:var(--accent)!important;color:var(--accent)!important}
 .btn-backup:hover{background:rgba(29,233,182,.1)!important}
 .backup-storage-box{background:var(--bg-deep);border:1px solid var(--border-accent);border-radius:10px;padding:14px 16px;margin-bottom:18px}
@@ -470,6 +526,7 @@ header h1 span{color:var(--accent)}
 <body data-theme="dark">
 
 <header>
+  <button class="mob-menu-btn" onclick="toggleSidebar()" id="mobMenuBtn">☰</button>
   <div class="logo-mark">⚗</div>
   <h1>CHEM<span>DOCS</span></h1>
   <span id="syncStatus" style="font-size:12px;color:var(--text-dim);margin-left:4px">🔄 กำลังโหลด...</span>
@@ -539,6 +596,7 @@ header h1 span{color:var(--accent)}
   </div>
 </header>
 
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
 <div class="app-body">
   <aside class="sidebar">
     <div class="sidebar-search">
@@ -900,6 +958,20 @@ async function saveToCloud() {
 }
 
 // ══════════════════════════════
+// MOBILE SIDEBAR
+// ══════════════════════════════
+function toggleSidebar(){
+  const sb=document.querySelector('.sidebar');
+  const ov=document.getElementById('mobOverlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+function closeSidebar(){
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('show');
+}
+
+// ══════════════════════════════
 // THEME
 // ══════════════════════════════
 function toggleThemePicker() { document.getElementById('themePicker').classList.toggle('open'); }
@@ -1009,7 +1081,13 @@ function uploadLogo(coId, inp) {
 // ══════════════════════════════
 // SELECT CHEM & DETAIL
 // ══════════════════════════════
-function selectChem(id) { S.selectedChem=id; renderSidebar(document.getElementById('searchInput').value); renderDetail(id); }
+function selectChem(id) {
+  S.selectedChem=id;
+  renderSidebar(document.getElementById('searchInput').value);
+  renderDetail(id);
+  // close sidebar on mobile
+  if(window.innerWidth<=768) closeSidebar();
+}
 
 function getGroupClass(g) {
   return g==='MSDS'?'msds':g==='Leaflet'?'leaflet':g==='TDS'?'tds':'other';
